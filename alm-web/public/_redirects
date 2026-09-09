@@ -1,0 +1,6 @@
+# Legacy URLs from the previous GoDaddy site (301, so ranking transfers).
+/about-us              /about       301
+/f/*                   /blog        301
+
+# Single-page app: every other path is served by the React router.
+/*                     /index.html  200
