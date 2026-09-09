@@ -23,11 +23,9 @@ jobs:
     steps:
       - uses: actions/checkout@v4
 
-      # `enablement: true` turns Pages on for the repo the first time this
-      # runs, so nobody has to set the source by hand in Settings.
+      # Requires Settings > Pages > Source = "GitHub Actions" (one-time, admin
+      # only — the default GITHUB_TOKEN is not allowed to enable Pages itself).
       - uses: actions/configure-pages@v5
-        with:
-          enablement: true
 
       - uses: actions/setup-node@v4
         with:
