@@ -1,12 +1,9 @@
 import React from 'react';
-import { posts } from '../content';
+import { posts, seo } from '../content';
 import { usePageMeta } from '../components/Bits';
 
 export default function Blog() {
-  usePageMeta(
-    'Guides for parents | Active Little Minds',
-    'Plain-language guides on autism, early childhood development and what parents can do at home, written by the team at Active Little Minds.'
-  );
+  usePageMeta(seo['/blog'].title, seo['/blog'].description);
 
   return (
     <>

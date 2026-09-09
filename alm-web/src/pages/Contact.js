@@ -1,12 +1,9 @@
 import React, { useState } from 'react';
-import { clinic, services } from '../content';
+import { clinic, services, seo } from '../content';
 import { usePageMeta } from '../components/Bits';
 
 export default function Contact() {
-  usePageMeta(
-    'Visit us | Active Little Minds, Sector 23 Gurugram',
-    `Active Little Minds child development centre, ${clinic.address}. Call ${clinic.phoneDisplay}, message on WhatsApp, or send an enquiry to book a free first consultation.`
-  );
+  usePageMeta(seo['/contact'].title, seo['/contact'].description);
 
   const [sent, setSent] = useState(false);
 

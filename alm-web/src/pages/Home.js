@@ -1,6 +1,6 @@
 import React from 'react';
 import { Link } from 'react-router-dom';
-import { clinic, concerns, whyUs, testimonials, stories } from '../content';
+import { clinic, concerns, whyUs, testimonials, stories, seo } from '../content';
 import { photos } from '../images';
 import { usePageMeta, StartCard, ServiceTiles, FaqList } from '../components/Bits';
 import { reasonIcon } from '../components/Icons';
@@ -19,10 +19,7 @@ const GALLERY = [
 ];
 
 export default function Home() {
-  usePageMeta(
-    'Child development & speech therapy in Gurugram | Active Little Minds',
-    'Speech therapy, occupational therapy, physiotherapy and special education for children in Sector 23, Gurugram. Assessment-led plans, therapists under one roof, free first consultation.'
-  );
+  usePageMeta(seo['/'].title, seo['/'].description);
 
   return (
     <>

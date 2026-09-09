@@ -1,11 +1,9 @@
 import React from 'react';
 import { usePageMeta, ServiceTiles, FaqList, StartCard } from '../components/Bits';
+import { seo } from '../content';
 
 export default function Services() {
-  usePageMeta(
-    'Therapies for children | Active Little Minds, Gurugram',
-    'Speech and language therapy, occupational therapy and sensory integration, early intervention, pediatric physiotherapy, special education, craniosacral therapy and group therapy in Gurugram.'
-  );
+  usePageMeta(seo['/services'].title, seo['/services'].description);
 
   return (
     <>

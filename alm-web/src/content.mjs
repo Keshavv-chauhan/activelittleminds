@@ -390,3 +390,46 @@ export const posts = [
     body: null,
   },
 ];
+
+/**
+ * Per-route titles and descriptions. Kept here so the pages and the
+ * prerender script (scripts/prerender.mjs) cannot drift apart.
+ */
+export const seo = {
+  '/': {
+    title: 'Child development & speech therapy in Gurugram | Active Little Minds',
+    description:
+      'Speech therapy, occupational therapy, physiotherapy and special education for children in Sector 23, Gurugram. Assessment-led plans, therapists under one roof, free first consultation.',
+  },
+  '/about': {
+    title: 'About us | Active Little Minds, Gurugram',
+    description:
+      'Active Little Minds is a child development centre in Sector 23, Gurugram. Meet the team of therapists and special educators, and read what we believe about how children grow.',
+  },
+  '/services': {
+    title: 'Therapies for children | Active Little Minds, Gurugram',
+    description:
+      'Speech and language therapy, occupational therapy and sensory integration, early intervention, pediatric physiotherapy, special education, craniosacral therapy and group therapy in Gurugram.',
+  },
+  '/blog': {
+    title: 'Guides for parents | Active Little Minds',
+    description:
+      'Plain-language guides on autism, early childhood development and what parents can do at home, written by the team at Active Little Minds.',
+  },
+  '/contact': {
+    title: 'Visit us | Active Little Minds, Sector 23 Gurugram',
+    description: `Active Little Minds child development centre, ${clinic.address}. Call ${clinic.phoneDisplay}, message on WhatsApp, or send an enquiry to book a free first consultation.`,
+  },
+};
+
+/** Title and description for one therapy page. */
+export const serviceSeo = (service) => ({
+  title: `${service.title} | Active Little Minds, Gurugram`,
+  description: service.short,
+});
+
+/** Every route that should exist as a real page on disk. */
+export const routes = [
+  ...Object.keys(seo),
+  ...services.map((s) => `/services/${s.slug}`),
+];

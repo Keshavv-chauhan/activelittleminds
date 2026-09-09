@@ -1,14 +1,11 @@
 import React from 'react';
 import { Link } from 'react-router-dom';
-import { values, team, stories } from '../content';
+import { values, team, stories, seo } from '../content';
 import { usePageMeta } from '../components/Bits';
 import { photos } from '../images';
 
 export default function About() {
-  usePageMeta(
-    'About us | Active Little Minds, Gurugram',
-    'Active Little Minds is a child development centre in Sector 23, Gurugram. Meet the team of therapists and special educators, and read what we believe about how children grow.'
-  );
+  usePageMeta(seo['/about'].title, seo['/about'].description);
 
   return (
     <>

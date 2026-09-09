@@ -1,6 +1,6 @@
 import React from 'react';
 import { useParams, Link } from 'react-router-dom';
-import { services } from '../content';
+import { services, serviceSeo } from '../content';
 import { usePageMeta, StartCard, ServiceTiles } from '../components/Bits';
 import { servicePhoto } from '../images';
 import NotFound from './NotFound';
@@ -12,10 +12,8 @@ export default function ServiceDetail() {
   const photo = servicePhoto[slug];
 
   usePageMeta(
-    service
-      ? `${service.title} | Active Little Minds, Gurugram`
-      : 'Therapy not found | Active Little Minds',
-    service ? service.short : undefined
+    service ? serviceSeo(service).title : 'Therapy not found | Active Little Minds',
+    service ? serviceSeo(service).description : undefined
   );
 
   if (!service) return <NotFound />;
