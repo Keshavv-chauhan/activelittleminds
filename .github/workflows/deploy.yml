@@ -35,12 +35,13 @@ jobs:
 
       - run: npm ci
 
-      # PUBLIC_URL also becomes the React Router basename (see src/index.js).
-      # When the custom domain is attached, set this to an empty string.
+      # Serving from the apex domain activelittleminds.com, so the site lives
+      # at the root: PUBLIC_URL stays empty and the React Router basename
+      # (see src/index.js) resolves to "/".
       - run: npm run build
         env:
           CI: true
-          PUBLIC_URL: /activelittleminds
+          PUBLIC_URL: ''
 
       # GitHub Pages serves 404.html for unknown paths; handing it the app
       # shell lets client-side routes load when opened directly.
