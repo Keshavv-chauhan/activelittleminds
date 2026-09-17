@@ -107,3 +107,84 @@ export function Gallery({ items }) {
     </>
   );
 }
+
+/**
+ * Horizontally-scrolling row of video cards. Uses the YouTube thumbnail as a
+ * static "facade" and only swaps in the actual iframe once someone clicks
+ * play — six autoplaying embeds loading at once would be a real weight and
+ * privacy cost for something most visitors never watch.
+ */
+export function VideoCarousel({ videos, label = 'Videos' }) {
+  const [playingId, setPlayingId] = useState(null);
+  const viewport = useRef(null);
+
+  const scrollByCards = useCallback((direction) => {
+    const el = viewport.current;
+    if (!el) return;
+    const card = el.querySelector('.carousel__slide');
+    const step = card ? card.offsetWidth + 28 : el.clientWidth * 0.8;
+    el.scrollBy({ left: step * direction, behavior: 'smooth' });
+  }, []);
+
+  return (
+    <div className="carousel">
+      <div
+        className="carousel__viewport"
+        ref={viewport}
+        tabIndex={0}
+        role="group"
+        aria-label={label}
+      >
+        {videos.map((v) => (
+          <div className="carousel__slide" key={v.id}>
+            <div className="video-card">
+              {playingId === v.id ? (
+                <iframe
+                  src={`https://www.youtube-nocookie.com/embed/${v.id}?autoplay=1`}
+                  title={v.title}
+                  allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture"
+                  allowFullScreen
+                />
+              ) : (
+                <button
+                  type="button"
+                  className="video-card__play"
+                  onClick={() => setPlayingId(v.id)}
+                  aria-label={`Play video: ${v.title}`}
+                >
+                  <img
+                    src={`https://i.ytimg.com/vi/${v.id}/hqdefault.jpg`}
+                    alt=""
+                    loading="lazy"
+                  />
+                  <span className="video-card__icon" aria-hidden="true">
+                    &#9654;
+                  </span>
+                </button>
+              )}
+            </div>
+            <p className="video-card__title">{v.title}</p>
+          </div>
+        ))}
+      </div>
+      <div className="carousel__controls">
+        <button
+          type="button"
+          className="carousel__btn"
+          onClick={() => scrollByCards(-1)}
+          aria-label={`Scroll ${label} back`}
+        >
+          &#8592;
+        </button>
+        <button
+          type="button"
+          className="carousel__btn"
+          onClick={() => scrollByCards(1)}
+          aria-label={`Scroll ${label} forward`}
+        >
+          &#8594;
+        </button>
+      </div>
+    </div>
+  );
+}

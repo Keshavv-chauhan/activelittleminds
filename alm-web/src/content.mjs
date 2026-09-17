@@ -325,6 +325,33 @@ export const testimonials = [
   },
 ];
 
+// SAMPLE / PLACEHOLDER testimonials — added purely to fill out the
+// casserole layout with more variety than the three real quotes above.
+// TODO(client): replace these with real parent quotes (with permission) or
+// remove them before launch. Names below are placeholders, not real families.
+export const sampleTestimonials = [
+  {
+    quote:
+      'We drove past three other centres to get here, and it was worth every trip. Diya’s speech has come on more in four months than in the two years before.',
+    source: 'Sample quote — replace before launch',
+  },
+  {
+    quote:
+      'The therapists actually talk to each other about Vihaan, not just to us. First place that’s felt like a team.',
+    source: 'Sample quote — replace before launch',
+  },
+  {
+    quote:
+      'Saanvi used to dread appointments. Now she asks when she gets to go back.',
+    source: 'Sample quote — replace before launch',
+  },
+  {
+    quote:
+      'Practical, patient, and they explain what they’re doing and why. That mattered more to us than we expected.',
+    source: 'Sample quote — replace before launch',
+  },
+];
+
 export const faqs = [
   {
     q: 'What types of children do you work with?',
@@ -366,6 +393,38 @@ export const faqs = [
     q: 'How do I book a consultation?',
     a: 'Call or message us on WhatsApp, or send the enquiry form on this site. Our team will schedule an initial assessment and talk you through the therapy plan.',
   },
+];
+
+// TODO(client): this is placeholder copy — confirm Dr. Srishti's real
+// qualifications and replace the illustrated portrait with an actual photo
+// before launch. The founding story below is drawn from the real "Our
+// Story" copy on the about page; the credentials list is not.
+export const founder = {
+  name: 'Dr. Srishti',
+  role: 'Founder & Child Development Specialist',
+  credentials: [
+    'M.Sc. in Child Development',
+    'Certified in early intervention practice',
+    '10+ years working with neurodivergent children',
+  ],
+  bio: [
+    'Dr. Srishti founded Active Little Minds after watching parents struggle to find one place where therapy, education and care came together — instead of carrying their child between three different clinics.',
+    'She still works in the centre every day, alongside the therapists and families who have built it with her since the first few sessions.',
+  ],
+  quote:
+    'Every child, regardless of their challenges, carries an infinite spark of potential. That belief is what this centre was built on, and it is what we come back to every day.',
+  draft: true,
+};
+
+// Real videos from the clinic's own YouTube channel (@ActiveLittleMinds).
+// TODO(client): these are general activity clips, not verified parent
+// testimonials — swap in actual testimonial recordings when available.
+export const videos = [
+  { id: 'Qz4QT4EO3Dk', title: 'A day at Active Little Minds' },
+  { id: 'sWv1fjtIrtw', title: 'Summer camp — learning through play' },
+  { id: 'q8HAZaMOwJY', title: 'Fine motor skills, hand-eye coordination' },
+  { id: '2uji59RdVH0', title: 'Discovering letters through play' },
+  { id: 'Tg0pb3VRbiU', title: 'Group activities and teamwork' },
 ];
 
 export const posts = [
@@ -412,9 +471,9 @@ export const seo = {
       'Speech and language therapy, occupational therapy and sensory integration, early intervention, pediatric physiotherapy, special education, craniosacral therapy and group therapy in Gurugram.',
   },
   '/blog': {
-    title: 'Guides for parents | Active Little Minds',
+    title: 'Blogs | Active Little Minds',
     description:
-      'Plain-language guides on autism, early childhood development and what parents can do at home, written by the team at Active Little Minds.',
+      'Plain-language articles on autism, early childhood development and what parents can do at home, written by the team at Active Little Minds.',
   },
   '/contact': {
     title: 'Visit us | Active Little Minds, Sector 23 Gurugram',
@@ -428,8 +487,15 @@ export const serviceSeo = (service) => ({
   description: service.short,
 });
 
+/** Title and description for one blog post page. */
+export const postSeo = (post) => ({
+  title: `${post.title} | Active Little Minds Blog`,
+  description: post.excerpt,
+});
+
 /** Every route that should exist as a real page on disk. */
 export const routes = [
   ...Object.keys(seo),
   ...services.map((s) => `/services/${s.slug}`),
+  ...posts.map((p) => `/blog/${p.slug}`),
 ];

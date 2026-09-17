@@ -1,4 +1,5 @@
 import React from 'react';
+import { Link } from 'react-router-dom';
 import { posts, seo } from '../content';
 import { usePageMeta } from '../components/Bits';
 
@@ -9,7 +10,7 @@ export default function Blog() {
     <>
       <section className="pagehead pagehead--mint">
         <div className="container">
-          <h1>Guides for parents</h1>
+          <h1>Blogs</h1>
           <p>
             Plain-language writing on development, diagnosis and what helps at
             home.
@@ -21,13 +22,13 @@ export default function Blog() {
         <div className="container">
           <div className="tiles">
             {posts.map((p) => (
-              <article className="tile" key={p.slug}>
+              <Link className="tile" to={`/blog/${p.slug}`} key={p.slug}>
                 <h3>{p.title}</h3>
                 <p>{p.excerpt}</p>
                 <span className="tile__more">
                   {p.dateLabel} — {p.category}
                 </span>
-              </article>
+              </Link>
             ))}
           </div>
 

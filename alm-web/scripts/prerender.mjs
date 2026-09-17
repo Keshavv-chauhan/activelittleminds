@@ -17,15 +17,23 @@ const ORIGIN = 'https://activelittleminds.com';
 
 // pathToFileURL, not a bare path: on Windows an absolute path like C:\... is
 // rejected by the ESM loader as an unknown URL scheme.
-const { seo, serviceSeo, services, routes } = await import(
+const { seo, serviceSeo, postSeo, services, posts, routes } = await import(
   pathToFileURL(resolve(here, '..', 'src', 'content.mjs')).href
 );
 
 const metaFor = (route) => {
   if (seo[route]) return seo[route];
-  const slug = route.replace('/services/', '');
-  const service = services.find((s) => s.slug === slug);
-  return service ? serviceSeo(service) : null;
+  if (route.startsWith('/services/')) {
+    const slug = route.replace('/services/', '');
+    const service = services.find((s) => s.slug === slug);
+    return service ? serviceSeo(service) : null;
+  }
+  if (route.startsWith('/blog/')) {
+    const slug = route.replace('/blog/', '');
+    const post = posts.find((p) => p.slug === slug);
+    return post ? postSeo(post) : null;
+  }
+  return null;
 };
 
 const escape = (s) =>

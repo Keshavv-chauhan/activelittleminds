@@ -1238,3 +1238,208 @@ ul {
     transition: none !important;
   }
 }
+
+/* ---------- Testimonial casserole ---------- */
+/* A deliberately uneven grid rather than uniform cards — some quotes are one
+   line, some are a paragraph, and letting them take different amounts of
+   room reads as a wall of real voices instead of a matched set of tiles. */
+.casserole {
+  display: grid;
+  grid-template-columns: repeat(6, 1fr);
+  grid-auto-rows: minmax(140px, auto);
+  gap: var(--s4);
+}
+.casserole__card {
+  grid-column: span 3;
+  border-radius: var(--r-lg);
+  padding: var(--s4);
+  box-shadow: var(--shadow-sm);
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+}
+.casserole__card--wide {
+  grid-column: span 4;
+}
+.casserole__card--narrow {
+  grid-column: span 2;
+}
+.casserole__card--tall {
+  grid-row: span 2;
+}
+.casserole__card blockquote {
+  margin: 0;
+  font-family: var(--display);
+  font-size: var(--step-1);
+  line-height: 1.35;
+}
+.casserole__card--tall blockquote {
+  font-size: var(--step-2);
+}
+.casserole__card figcaption {
+  margin-top: var(--s3);
+  font-size: var(--step--1);
+  font-weight: 700;
+  color: var(--ink-60);
+}
+.casserole__card--sun {
+  background: var(--sun-soft);
+}
+.casserole__card--sky {
+  background: var(--sky-soft);
+}
+.casserole__card--mint {
+  background: var(--mint-soft);
+}
+.casserole__card--petal {
+  background: var(--petal-soft);
+}
+.casserole__card--grape {
+  background: var(--grape-soft);
+}
+.casserole__card--ink {
+  background: var(--ink);
+  color: #fff;
+}
+.casserole__card--ink figcaption {
+  color: #c8c2e0;
+}
+
+@media (max-width: 900px) {
+  .casserole {
+    grid-template-columns: repeat(2, 1fr);
+  }
+  .casserole__card,
+  .casserole__card--wide,
+  .casserole__card--narrow {
+    grid-column: span 2;
+  }
+  .casserole__card--tall {
+    grid-row: span 1;
+  }
+}
+@media (max-width: 560px) {
+  .casserole {
+    grid-template-columns: 1fr;
+  }
+  .casserole__card,
+  .casserole__card--wide,
+  .casserole__card--narrow {
+    grid-column: span 1;
+  }
+}
+
+/* ---------- Video cards ---------- */
+.video-card {
+  position: relative;
+  aspect-ratio: 16 / 9;
+  border-radius: var(--r-md);
+  overflow: hidden;
+  background: var(--ink);
+  box-shadow: var(--shadow-sm);
+}
+.video-card iframe {
+  width: 100%;
+  height: 100%;
+  border: none;
+  display: block;
+}
+.video-card__play {
+  position: relative;
+  width: 100%;
+  height: 100%;
+  border: none;
+  padding: 0;
+  margin: 0;
+  cursor: pointer;
+  background: none;
+  display: block;
+}
+.video-card__play img {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+}
+.video-card__icon {
+  position: absolute;
+  inset: 0;
+  display: grid;
+  place-items: center;
+  font-size: 1.4rem;
+  color: var(--ink);
+}
+.video-card__icon::before {
+  content: '';
+  position: absolute;
+  width: 64px;
+  height: 64px;
+  border-radius: 999px;
+  background: var(--sun);
+  box-shadow: var(--shadow-md);
+}
+.video-card__icon {
+  z-index: 1;
+}
+.video-card__title {
+  margin: var(--s2) 0 0;
+  font-weight: 700;
+  font-size: var(--step--1);
+}
+
+/* ---------- Founder ---------- */
+.founder {
+  display: grid;
+  grid-template-columns: 0.85fr 1.15fr;
+  gap: var(--s6);
+  align-items: center;
+}
+.founder__portrait {
+  aspect-ratio: 3 / 4;
+  background: var(--petal-soft);
+}
+.founder__portrait svg {
+  width: 78%;
+  height: 78%;
+  margin: 11% auto 0;
+}
+.founder__name {
+  font-size: var(--step-3);
+}
+.founder__role {
+  margin-top: var(--s1);
+  font-weight: 700;
+  color: var(--sage);
+}
+.founder__credentials {
+  display: flex;
+  flex-wrap: wrap;
+  gap: var(--s2);
+  margin: var(--s3) 0 var(--s4);
+}
+.founder__credentials li {
+  background: var(--paper);
+  border-radius: 999px;
+  padding: 0.45rem 1rem;
+  font-size: var(--step--1);
+  font-weight: 700;
+  box-shadow: var(--shadow-sm);
+}
+.founder__quote {
+  margin: var(--s4) 0;
+  padding: var(--s4);
+  border-radius: var(--r-md);
+  background: var(--sun-soft);
+  font-family: var(--display);
+  font-size: var(--step-1);
+  line-height: 1.4;
+}
+
+@media (max-width: 900px) {
+  .founder {
+    grid-template-columns: 1fr;
+  }
+  .founder__portrait {
+    max-width: 280px;
+    margin-inline: auto;
+  }
+}

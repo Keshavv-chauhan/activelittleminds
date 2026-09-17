@@ -109,3 +109,49 @@ export function AnimalParade() {
 }
 
 export default CAST;
+
+/*
+ * Founder portrait — an illustration, not a photo of a real person. Used as a
+ * placeholder until the clinic supplies an actual headshot; see the TODO in
+ * content.mjs. Kept in the same flat, rounded style as the animal cast so it
+ * reads as "one design system" rather than a stock photo bolted on.
+ */
+export function FounderPortrait(p) {
+  return (
+    <svg viewBox="0 0 200 220" aria-hidden="true" focusable="false" {...p}>
+      <rect width="200" height="220" fill="none" />
+      {/* hair, behind the head */}
+      <path
+        d="M100 34c-34 0-54 24-54 58 0 20 4 38 10 52h10c-4-16-6-32-6-46 0-30 16-48 40-48s40 18 40 48c0 14-2 30-6 46h10c6-14 10-32 10-52 0-34-20-58-54-58z"
+        fill="#4a3a2c"
+      />
+      {/* neck + shoulders / top */}
+      <path
+        d="M60 172c0-16 18-28 40-28s40 12 40 28v30H60z"
+        fill="#5fc5e8"
+      />
+      <path d="M88 152h24v20a12 12 0 0 1-24 0z" fill="#f0c39a" />
+      {/* face */}
+      <circle cx="100" cy="112" r="46" fill="#f4cda3" />
+      {/* hair front sweep */}
+      <path
+        d="M56 108c0-30 20-50 44-50s44 20 44 50c-8-10-16-16-24-16-4 6-12 10-20 10s-16-4-20-10c-8 0-16 6-24 16z"
+        fill="#4a3a2c"
+      />
+      {/* eyes */}
+      <circle cx="84" cy="114" r="5" fill="#3a3357" />
+      <circle cx="116" cy="114" r="5" fill="#3a3357" />
+      {/* smile */}
+      <path
+        d="M84 132c6 8 26 8 32 0"
+        fill="none"
+        stroke="#a9603f"
+        strokeWidth="4"
+        strokeLinecap="round"
+      />
+      {/* cheeks */}
+      <circle cx="72" cy="122" r="6" fill="#ff9cbb" opacity="0.5" />
+      <circle cx="128" cy="122" r="6" fill="#ff9cbb" opacity="0.5" />
+    </svg>
+  );
+}
