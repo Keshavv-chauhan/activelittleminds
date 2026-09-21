@@ -157,7 +157,8 @@ img {
   display: block;
 }
 
-ul {
+ul,
+ol {
   margin: 0;
   padding: 0;
   list-style: none;
@@ -1503,6 +1504,7 @@ ul {
   font-size: var(--step--1);
 }
 .crumbs ol {
+  align-items: center;
   display: flex;
   flex-wrap: wrap;
   gap: 0.15rem 0.5rem;
