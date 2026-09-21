@@ -1,5 +1,5 @@
 import React, { useEffect } from 'react';
-import { Routes, Route, Navigate, useLocation } from 'react-router-dom';
+import { Routes, Route, useLocation } from 'react-router-dom';
 import Layout from './components/Layout';
 import Home from './pages/Home';
 import About from './pages/About';
@@ -10,11 +10,22 @@ import BlogPost from './pages/BlogPost';
 import Contact from './pages/Contact';
 import NotFound from './pages/NotFound';
 
+/**
+ * Scrolls to the top on navigation, or to the #anchor if the link has one
+ * (React Router does not do the latter on its own).
+ */
 function ScrollToTop() {
-  const { pathname } = useLocation();
+  const { pathname, hash } = useLocation();
   useEffect(() => {
+    if (hash) {
+      const el = document.getElementById(hash.slice(1));
+      if (el) {
+        el.scrollIntoView();
+        return;
+      }
+    }
     window.scrollTo(0, 0);
-  }, [pathname]);
+  }, [pathname, hash]);
   return null;
 }
 
@@ -30,11 +41,6 @@ export default function App() {
         <Route path="/blog" element={<Blog />} />
         <Route path="/blog/:slug" element={<BlogPost />} />
         <Route path="/contact" element={<Contact />} />
-
-        {/* Legacy URLs from the GoDaddy site, kept so existing links and
-            search results do not break. */}
-        <Route path="/about-us" element={<Navigate to="/about" replace />} />
-        <Route path="/f/*" element={<Navigate to="/blog" replace />} />
 
         <Route path="*" element={<NotFound />} />
       </Routes>

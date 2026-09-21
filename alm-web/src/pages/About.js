@@ -1,17 +1,18 @@
 import React from 'react';
 import { Link } from 'react-router-dom';
-import { values, team, stories, seo } from '../content';
-import { usePageMeta } from '../components/Bits';
-import { photos } from '../images';
+import { values, team, stories } from '../content';
+import { paths } from '../site';
+import { Breadcrumbs } from '../components/Bits';
+import Photo from '../components/Photo';
+import { photos, sizes } from '../images';
 
 export default function About() {
-  usePageMeta(seo['/about'].title, seo['/about'].description);
-
   return (
     <>
       <section className="pagehead pagehead--mint">
         <div className="container pagehead__grid">
           <div>
+            <Breadcrumbs />
             <h1>More a home of growth than a clinic</h1>
             <p>
               Active Little Minds is a child development centre for children and
@@ -19,9 +20,10 @@ export default function About() {
             </p>
           </div>
           <div className="archphoto archphoto--square">
-            <img
-              src={photos.movementGroup.src}
-              alt={photos.movementGroup.alt}
+            <Photo
+              photo={photos.movementGroup}
+              priority
+              sizes={sizes.header}
             />
           </div>
         </div>
@@ -48,6 +50,11 @@ export default function About() {
               children, who remind us daily what resilience and growth actually
               look like.
             </p>
+            <p>
+              See <Link to={paths.services}>what we offer</Link>, read our{' '}
+              <Link to={paths.blog}>blogs for parents</Link>, or{' '}
+              <Link to={paths.contact}>come and visit</Link>.
+            </p>
 
             <h2>What we believe</h2>
             <div className="reasons">
@@ -62,7 +69,10 @@ export default function About() {
 
           <aside className="sticky-aside">
             <div className="archphoto archphoto--square" style={{ marginBottom: 'var(--s4)' }}>
-              <img src={photos.jumping.src} alt={photos.jumping.alt} />
+              <Photo
+                photo={photos.jumping}
+                sizes="(max-width: 900px) 100vw, 400px"
+              />
             </div>
             <div className="startcard">
               <h2>Come and see the centre</h2>
@@ -71,7 +81,7 @@ export default function About() {
                 to visit. Book a free first consultation and meet the team.
               </p>
               <div className="startcard__actions">
-                <Link className="btn btn--ink btn--full" to="/contact">
+                <Link className="btn btn--ink btn--full" to={paths.contact}>
                   Book a visit
                 </Link>
               </div>
@@ -99,6 +109,14 @@ export default function About() {
                 <p>{m.role}</p>
               </div>
             ))}
+          </div>
+          <div className="btn-row">
+            <Link className="btn btn--sun" to={paths.services}>
+              See our therapies
+            </Link>
+            <Link className="btn btn--outline" to={paths.contact}>
+              Book a visit
+            </Link>
           </div>
         </div>
       </section>

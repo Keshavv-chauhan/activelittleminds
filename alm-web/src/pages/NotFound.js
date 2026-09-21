@@ -1,9 +1,16 @@
 import React from 'react';
-import { Link } from 'react-router-dom';
-import { usePageMeta } from '../components/Bits';
+import { Link, Navigate, useLocation } from 'react-router-dom';
+import { paths, legacyTarget } from '../site';
 
+/**
+ * Rendered for any URL that is not a real page. If the URL is one of the old
+ * addresses (GoDaddy site, or the first long-slug launch) the visitor is sent
+ * to where that content lives now instead of seeing an error.
+ */
 export default function NotFound() {
-  usePageMeta('Page not found | Active Little Minds');
+  const { pathname } = useLocation();
+  const target = legacyTarget(pathname);
+  if (target) return <Navigate to={target} replace />;
 
   return (
     <section className="section">
@@ -16,10 +23,13 @@ export default function NotFound() {
           place.
         </p>
         <div className="btn-row">
-          <Link className="btn btn--primary" to="/services">
+          <Link className="btn btn--primary" to={paths.services}>
             See our therapies
           </Link>
-          <Link className="btn btn--outline" to="/contact">
+          <Link className="btn btn--outline" to={paths.blog}>
+            Read our blogs
+          </Link>
+          <Link className="btn btn--outline" to={paths.contact}>
             Visit us
           </Link>
         </div>

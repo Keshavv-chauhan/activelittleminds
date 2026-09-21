@@ -3,77 +3,75 @@
   <head>
     <meta charset="utf-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1" />
-    <meta name="theme-color" content="#FFD24C" />
+    <meta name="theme-color" content="#ffffff" />
     <meta name="author" content="Active Little Minds" />
-    <title>Child development &amp; speech therapy in Gurugram | Active Little Minds</title>
+
+    <!-- Google Search Console ownership. Carried over from the previous
+         (GoDaddy) site so the existing property stays verified. -->
+    <meta
+      name="google-site-verification"
+      content="AMmt9ig1C2dYuZpx0CvwhLLrMIkk8nqw74t3EhgCxeY"
+    />
+
+    <!-- Default title/description for the dev server. In the production build
+         scripts/prerender.cjs replaces these (and adds the canonical URL,
+         social tags and structured data) separately for every page. -->
+    <title>Speech Therapy for Kids, Palam Vihar | Active Little Minds</title>
     <meta
       name="description"
-      content="Speech therapy, occupational therapy, physiotherapy and special education for children in Sector 23, Gurugram. Assessment-led plans and a free first consultation."
+      content="Child development centre in Palam Vihar, Gurugram: speech, occupational and physio therapy plus special education under one roof. Free first consultation."
     />
 
-    <meta property="og:type" content="website" />
-    <meta property="og:locale" content="en_IN" />
-    <meta property="og:site_name" content="Active Little Minds" />
-    <meta
-      property="og:title"
-      content="Child development &amp; speech therapy in Gurugram | Active Little Minds"
-    />
-    <meta
-      property="og:description"
-      content="A child development centre in Gurugram helping children with autism, ADHD and speech delay — and helping parents know what to do next."
-    />
-    <meta name="twitter:card" content="summary_large_image" />
-
-    <link rel="icon" href="%PUBLIC_URL%/favicon.ico" sizes="any" />
-    <link rel="icon" type="image/webp" href="%PUBLIC_URL%/logo.webp" />
-    <link rel="apple-touch-icon" href="%PUBLIC_URL%/logo.webp" />
+    <!-- Icons: generated from the ALM logo by scripts/tools/optimize-images.mjs -->
+    <link rel="icon" href="%PUBLIC_URL%/favicon.ico" sizes="48x48" />
+    <link rel="icon" type="image/png" sizes="32x32" href="%PUBLIC_URL%/favicon-32.png" />
+    <link rel="apple-touch-icon" href="%PUBLIC_URL%/apple-touch-icon.png" />
     <link rel="manifest" href="%PUBLIC_URL%/manifest.json" />
 
-    <link rel="preconnect" href="https://fonts.googleapis.com" />
-    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
-    <link
-      href="https://fonts.googleapis.com/css2?family=Baloo+2:wght@600;700;800&family=Nunito:ital,wght@0,400;0,600;0,700;1,400&display=swap"
-      rel="stylesheet"
-    />
+    <!-- Google Analytics 4 (G-39K18ZX0KT).
+         - Runs only on the real site, never on localhost or preview hosts.
+         - The gtag.js file is fetched once the page has loaded and the browser
+           is idle, so measurement never competes with rendering (LCP / INP).
+         - Consent Mode v2: measurement is on by default, but visitors in the
+           EEA, UK and Switzerland start with everything denied until a consent
+           banner grants it. Ad storage is denied everywhere; no ads are used. -->
+    <script>
+      (function () {
+        var host = location.hostname;
+        if (host !== 'activelittleminds.com' && host !== 'www.activelittleminds.com') return;
 
-    <script type="application/ld+json">
-      {
-        "@context": "https://schema.org",
-        "@type": "MedicalClinic",
-        "name": "Active Little Minds — Child Development Centre",
-        "description": "Child development centre offering speech therapy, occupational therapy, sensory integration, pediatric physiotherapy, early intervention and special education.",
-        "url": "https://activelittleminds.com/",
-        "telephone": "+91-93547-51149",
-        "email": "activelittleminds1@gmail.com",
-        "address": {
-          "@type": "PostalAddress",
-          "streetAddress": "H.No. 692, Sector 23, near Ansal Plaza",
-          "addressLocality": "Gurugram",
-          "addressRegion": "Haryana",
-          "postalCode": "122017",
-          "addressCountry": "IN"
-        },
-        "openingHoursSpecification": [
-          {
-            "@type": "OpeningHoursSpecification",
-            "dayOfWeek": [
-              "Monday",
-              "Tuesday",
-              "Wednesday",
-              "Thursday",
-              "Friday",
-              "Saturday"
-            ],
-            "opens": "09:00",
-            "closes": "19:00"
-          }
-        ],
-        "sameAs": [
-          "https://www.instagram.com/active_little_minds",
-          "https://www.facebook.com/profile.php?id=61580940359737",
-          "https://www.youtube.com/@ActiveLittleMinds"
-        ]
-      }
+        window.dataLayer = window.dataLayer || [];
+        function gtag() { dataLayer.push(arguments); }
+        window.gtag = gtag;
+
+        gtag('consent', 'default', {
+          ad_storage: 'denied',
+          ad_user_data: 'denied',
+          ad_personalization: 'denied',
+          analytics_storage: 'denied',
+          region: ['AT','BE','BG','HR','CY','CZ','DK','EE','FI','FR','DE','GR','HU','IS','IE','IT','LV','LI','LT','LU','MT','NL','NO','PL','PT','RO','SK','SI','ES','SE','GB','CH']
+        });
+        gtag('consent', 'default', {
+          ad_storage: 'denied',
+          ad_user_data: 'denied',
+          ad_personalization: 'denied'
+        });
+        gtag('js', new Date());
+        gtag('config', 'G-39K18ZX0KT');
+
+        function load() {
+          var s = document.createElement('script');
+          s.async = true;
+          s.src = 'https://www.googletagmanager.com/gtag/js?id=G-39K18ZX0KT';
+          document.head.appendChild(s);
+        }
+        function schedule() {
+          if ('requestIdleCallback' in window) requestIdleCallback(load, { timeout: 4000 });
+          else setTimeout(load, 2000);
+        }
+        if (document.readyState === 'complete') schedule();
+        else window.addEventListener('load', schedule);
+      })();
     </script>
   </head>
   <body>

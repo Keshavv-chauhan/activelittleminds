@@ -1,10 +1,10 @@
 import React, { useState } from 'react';
-import { clinic, services, seo } from '../content';
-import { usePageMeta } from '../components/Bits';
+import { Link } from 'react-router-dom';
+import { clinic, services } from '../content';
+import { paths } from '../site';
+import { Breadcrumbs } from '../components/Bits';
 
 export default function Contact() {
-  usePageMeta(seo['/contact'].title, seo['/contact'].description);
-
   const [sent, setSent] = useState(false);
 
   // No backend is wired up yet. This hands the enquiry to the clinic's inbox
@@ -30,6 +30,7 @@ export default function Contact() {
     <>
       <section className="pagehead pagehead--sky">
         <div className="container">
+          <Breadcrumbs />
           <h1>Visit us</h1>
           <p>
             The quickest way to start is a phone call. If it is easier to write,
@@ -83,6 +84,13 @@ export default function Contact() {
                 Open in Google Maps
               </a>
             </div>
+
+            <p style={{ marginTop: 'var(--s4)' }}>
+              Not sure which therapy your child needs? Read about{' '}
+              <Link to={paths.services}>each of our therapies</Link> and the{' '}
+              questions parents ask first, or{' '}
+              <Link to={paths.about}>meet the team</Link>.
+            </p>
 
             <div className="notice" style={{ marginTop: 'var(--s5)' }}>
               <p>

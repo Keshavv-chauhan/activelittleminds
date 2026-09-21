@@ -4,11 +4,60 @@
    as the photo frame; everything else is pillowy.
    ========================================================= */
 
+/* Self-hosted fonts (SIL Open Font License 1.1; see LICENSE-*.txt).
+   Latin subset only: the site is English, and everything outside this range
+   (e.g. the arrow glyphs) falls back to the system font, as it did before.
+   Fallback faces below are metric-matched to Arial so the swap to the web font
+   does not reflow the page (measured CLS was 0.047 before this). */
+@font-face {
+  font-family: 'Nunito';
+  font-style: normal;
+  font-display: swap;
+  font-weight: 200 1000;
+  src: url('./fonts/nunito-latin-wght-normal.woff2') format('woff2');
+  unicode-range: U+0000-00FF,U+0131,U+0152-0153,U+02BB-02BC,U+02C6,U+02DA,U+02DC,U+0304,U+0308,U+0329,U+2000-206F,U+20AC,U+2122,U+2191,U+2193,U+2212,U+2215,U+FEFF,U+FFFD;
+}
+@font-face {
+  font-family: 'Baloo 2';
+  font-style: normal;
+  font-display: swap;
+  font-weight: 400 800;
+  src: url('./fonts/baloo-2-latin-wght-normal.woff2') format('woff2');
+  unicode-range: U+0000-00FF,U+0131,U+0152-0153,U+02BB-02BC,U+02C6,U+02DA,U+02DC,U+0304,U+0308,U+0329,U+2000-206F,U+20AC,U+2122,U+2191,U+2193,U+2212,U+2215,U+FEFF,U+FFFD;
+}
+@font-face {
+  font-family: 'Nunito Fallback';
+  font-weight: 400;
+  src: local('Arial'), local('ArialMT');
+  size-adjust: 101.39%;
+  ascent-override: 99.71%;
+  descent-override: 34.82%;
+  line-gap-override: 0.00%;
+}
+@font-face {
+  font-family: 'Nunito Fallback';
+  font-weight: 600 800;
+  src: local('Arial Bold'), local('Arial-BoldMT');
+  size-adjust: 101.39%;
+  ascent-override: 99.71%;
+  descent-override: 34.82%;
+  line-gap-override: 0.00%;
+}
+@font-face {
+  font-family: 'Baloo 2 Fallback';
+  font-weight: 400 800;
+  src: local('Arial Bold'), local('Arial-BoldMT');
+  size-adjust: 95.78%;
+  ascent-override: 112.55%;
+  descent-override: 54.71%;
+  line-gap-override: 0.00%;
+}
+
 :root {
   /* Ink is a soft plum rather than black — black is what made it feel sharp. */
   --ink: #3a3357;
   --ink-70: #5d5580;
-  --ink-60: #6e6795;
+  --ink-60: #5f5887; /* 5.4:1 on the tinted card backgrounds */
   --paper: #ffffff;
   --cream: #fff9ef;
 
@@ -25,10 +74,10 @@
   --tangerine: #ff9a52;
   --tangerine-soft: #ffeada;
 
-  --sage: #1d7a62; /* actions — 5.2:1 on white */
+  --sage: #17694f; /* actions and link text: 6.6:1 on white, 5.5:1 on tints */
 
-  --display: 'Baloo 2', 'Segoe UI', system-ui, sans-serif;
-  --text: 'Nunito', system-ui, -apple-system, sans-serif;
+  --display: 'Baloo 2', 'Baloo 2 Fallback', 'Segoe UI', system-ui, sans-serif;
+  --text: 'Nunito', 'Nunito Fallback', system-ui, -apple-system, sans-serif;
 
   --step--1: 0.95rem;
   --step-0: 1.0625rem;
@@ -104,6 +153,7 @@ a {
 
 img {
   max-width: 100%;
+  height: auto;
   display: block;
 }
 
@@ -654,7 +704,7 @@ ul {
 .tile--tangerine .tile__icon {
   background: var(--tangerine);
 }
-.tile h3 {
+.tile__title {
   font-size: var(--step-2);
 }
 .tile p {
@@ -929,16 +979,20 @@ ul {
 }
 .footer__grid {
   display: grid;
-  grid-template-columns: 1.4fr 1fr 1fr;
+  grid-template-columns: 1.3fr 0.8fr 1.3fr 1fr;
   gap: var(--s5);
 }
-.footer h3 {
+.footer__title {
   font-size: var(--step-1);
   margin-bottom: var(--s3);
 }
 .footer li {
-  margin-bottom: var(--s2);
+  margin-bottom: var(--s1);
   font-size: var(--step--1);
+}
+.footer li a {
+  display: inline-block;
+  padding: 0.3rem 0;
 }
 .footer p {
   color: #d6d1e8;
@@ -1184,15 +1238,14 @@ ul {
 /* ---------- Motion ---------- */
 @media (prefers-reduced-motion: no-preference) {
   .hero__grid > * {
-    animation: rise 0.7s cubic-bezier(0.22, 0.61, 0.36, 1) both;
+    animation: rise 0.5s cubic-bezier(0.22, 0.61, 0.36, 1) both;
   }
   .hero__grid > *:nth-child(2) {
     animation-delay: 0.12s;
   }
   @keyframes rise {
     from {
-      opacity: 0;
-      transform: translateY(18px);
+      transform: translateY(14px);
     }
   }
   /* The characters breathe; they do not march across the screen. */
@@ -1332,7 +1385,7 @@ ul {
 /* ---------- Video cards ---------- */
 .video-card {
   position: relative;
-  aspect-ratio: 16 / 9;
+  aspect-ratio: 9 / 16;
   border-radius: var(--r-md);
   overflow: hidden;
   background: var(--ink);
@@ -1442,4 +1495,205 @@ ul {
     max-width: 280px;
     margin-inline: auto;
   }
+}
+
+/* ---------- Breadcrumbs ---------- */
+.crumbs {
+  margin-bottom: var(--s3);
+  font-size: var(--step--1);
+}
+.crumbs ol {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 0.15rem 0.5rem;
+  margin: 0;
+  padding: 0;
+}
+.crumbs li + li::before {
+  content: '\203A';
+  margin-right: 0.5rem;
+  color: var(--ink-60);
+}
+.crumbs a {
+  display: inline-block;
+  padding: 0.2rem 0;
+  text-decoration: underline;
+  text-underline-offset: 3px;
+}
+.crumbs [aria-current='page'] {
+  font-weight: 700;
+}
+
+/* ---------- Small link blocks ---------- */
+.head__more {
+  margin: var(--s4) 0 0;
+  font-size: var(--step-1);
+  color: var(--ink-60);
+}
+.head__more a,
+.head p a {
+  color: var(--sage);
+  font-weight: 700;
+  text-underline-offset: 3px;
+}
+.startcard--plain {
+  background: var(--paper);
+  box-shadow: var(--shadow-sm);
+}
+.startcard--plain h2 {
+  font-size: var(--step-2);
+  max-width: none;
+}
+.linklist {
+  margin-top: var(--s3);
+}
+.linklist li {
+  margin: 0 0 var(--s2);
+}
+.linklist a {
+  display: inline-block;
+  padding: 0.25rem 0;
+  font-weight: 700;
+  color: var(--sage);
+  text-underline-offset: 3px;
+}
+.linklist__gap {
+  margin-top: var(--s4);
+}
+
+/* ---------- Video row: portrait cards, four across on desktop ---------- */
+.carousel__slide--video {
+  flex: 0 0 clamp(190px, 21%, 250px);
+}
+
+/* ---------- Narrow phones (320-420px) ---------- */
+@media (max-width: 760px) {
+  .carousel__slide--video {
+    flex-basis: 62%;
+  }
+}
+@media (max-width: 420px) {
+  .container {
+    padding-inline: var(--s3);
+  }
+  .masthead__inner {
+    gap: var(--s2);
+    min-height: 72px;
+  }
+  .brand__logo {
+    width: 44px;
+    height: 44px;
+  }
+  .brand__name {
+    font-size: 1.05rem;
+  }
+  .brand__sub {
+    font-size: 0.68rem;
+  }
+  .burger {
+    padding: 0.55rem 0.95rem;
+  }
+  .nav {
+    inset: 72px 0 auto 0;
+  }
+}
+
+/* ---------- Responsive hardening (each item found by the width audit) ---------- */
+/* Grid items default to min-width:auto, so one wide child (a <select> sized by
+   its longest option, an unbreakable email address) stretches the whole column
+   and the page scrolls sideways. Let them shrink instead. */
+.hero__grid > *,
+.visit > *,
+.split > *,
+.pagehead__grid > *,
+.founder > *,
+.footer__grid > *,
+.form > *,
+.field > * {
+  min-width: 0;
+}
+.field input,
+.field select,
+.field textarea {
+  width: 100%;
+  min-width: 0;
+  max-width: 100%;
+}
+/* Six animals at a fixed 48px minimum did not fit a 320px screen. */
+.parade__animal {
+  width: clamp(36px, 8vw, 76px);
+  height: clamp(36px, 8vw, 76px);
+  flex: 0 1 auto;
+  min-width: 0;
+}
+/* Keep the logo caption at a readable 12px on the narrowest phones. */
+@media (max-width: 420px) {
+  .brand__sub {
+    font-size: 0.75rem;
+  }
+}
+
+/* The desktop header (logo + 5 links + button) needs ~915px, but the compact
+   menu used to start at 760px, so tablets (iPad portrait = 768px) scrolled
+   sideways. Use the compact menu up to 980px, which leaves ~65px of headroom
+   for font-rendering differences between devices. */
+@media (max-width: 980px) {
+  .burger {
+    display: inline-block;
+  }
+  .masthead__cta {
+    display: none;
+  }
+  .nav {
+    display: none;
+    position: absolute;
+    inset: 82px 0 auto 0;
+    flex-direction: column;
+    align-items: stretch;
+    gap: var(--s1);
+    background: var(--paper);
+    border-radius: 0 0 var(--r-lg) var(--r-lg);
+    box-shadow: var(--shadow-md);
+    padding: var(--s3) var(--s4) var(--s4);
+  }
+  .nav.is-open {
+    display: flex;
+  }
+  .nav a {
+    padding: var(--s3);
+    font-size: var(--step-1);
+  }
+}
+/* re-assert the phone header height, which the block above would otherwise undo */
+@media (max-width: 420px) {
+  .nav {
+    inset: 72px 0 auto 0;
+  }
+}
+
+/* The four-column footer squeezed the 205px email address into a 174px column
+   between ~900 and ~960px. Let long links wrap, and stack to two columns sooner. */
+.footer a {
+  overflow-wrap: anywhere;
+}
+@media (max-width: 1000px) {
+  .footer__grid {
+    grid-template-columns: 1fr 1fr;
+  }
+}
+/* re-assert the single phone column, which the block above would undo */
+@media (max-width: 760px) {
+  .footer__grid {
+    grid-template-columns: 1fr;
+  }
+}
+
+/* The yellow disc was painted on top of the play triangle (a positioned
+   pseudo-element outranks in-flow text), leaving a blank yellow dot. Push the
+   disc behind the glyph; the icon's own z-index gives it a stacking context. */
+.video-card__icon::before {
+  z-index: -1;
+}
+.video-card__icon {
+  padding-left: 4px; /* a triangle looks centred when nudged right of its box */
 }

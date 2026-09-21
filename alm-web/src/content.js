@@ -41,7 +41,11 @@ export const concerns = [
 
 export const services = [
   {
-    slug: 'speech-and-language-therapy',
+    slug: 'speech-therapy',
+    seoTitle: "Speech Therapy for Kids in Gurugram | Active Little Minds",
+    seoDescription:
+      "Speech and language therapy for children in Gurugram: articulation, vocabulary, comprehension and social communication, with parents involved throughout.",
+    related: ["craniosacral-oral-placement","group-therapy","early-intervention"],
     title: 'Speech & Language Therapy',
     tone: 'sun',
     short:
@@ -69,7 +73,11 @@ export const services = [
       'Every child deserves the chance to be heard, understood, and confident in expressing themselves.',
   },
   {
-    slug: 'occupational-therapy-and-sensory-integration',
+    slug: 'occupational-therapy',
+    seoTitle: "Occupational Therapy for Children | Active Little Minds",
+    seoDescription:
+      "Occupational therapy and sensory integration for children in Gurugram: fine motor skills, coordination, sensory processing and daily living skills.",
+    related: ["physiotherapy","early-intervention","special-education"],
     title: 'Occupational Therapy & Sensory Integration',
     tone: 'sky',
     short:
@@ -99,7 +107,11 @@ export const services = [
       'We want children to become confident, independent, and fully engaged in their world, with families supported every step of the way.',
   },
   {
-    slug: 'neurodevelopment-therapy-and-early-intervention',
+    slug: 'early-intervention',
+    seoTitle: "Early Intervention Therapy in Gurugram | Active Little Minds",
+    seoDescription:
+      "Neurodevelopment therapy and early intervention in Gurugram: spotting developmental delays early and supporting motor, cognitive and social growth.",
+    related: ["speech-therapy","occupational-therapy","group-therapy"],
     title: 'Neurodevelopment Therapy & Early Intervention',
     tone: 'mint',
     short:
@@ -129,7 +141,11 @@ export const services = [
       'Every child deserves the opportunity to thrive and reach their full potential, with families guided along the way.',
   },
   {
-    slug: 'pediatric-physiotherapy-and-sports-therapy',
+    slug: 'physiotherapy',
+    seoTitle: "Pediatric Physiotherapy in Gurugram | Active Little Minds",
+    seoDescription:
+      "Pediatric physiotherapy and sports therapy in Gurugram: strength, balance, posture and mobility, built around play so children stay engaged.",
+    related: ["occupational-therapy","early-intervention","group-therapy"],
     title: 'Pediatric Physiotherapy & Sports Therapy',
     tone: 'tangerine',
     short:
@@ -159,7 +175,11 @@ export const services = [
       'We want children to be physically confident, active, and independent, and families to have the tools to support that.',
   },
   {
-    slug: 'special-education-and-remedial-classes',
+    slug: 'special-education',
+    seoTitle: "Special Education Classes in Gurugram | Active Little Minds",
+    seoDescription:
+      "Special education and remedial classes in Gurugram: personalised learning plans for reading, writing and maths, for children who learn differently.",
+    related: ["speech-therapy","occupational-therapy","group-therapy"],
     title: 'Special Education & Remedial Classes',
     tone: 'petal',
     short:
@@ -189,7 +209,11 @@ export const services = [
       'Every child can reach their academic potential while building confidence, independence, and a love of learning.',
   },
   {
-    slug: 'craniosacral-and-oral-placement-therapy',
+    slug: 'craniosacral-oral-placement',
+    seoTitle: "Craniosacral & Oral Placement Therapy | Active Little Minds",
+    seoDescription:
+      "Craniosacral and oral placement therapy for children in Gurugram, supporting speech clarity, feeding, oral-motor skills and sensory regulation.",
+    related: ["speech-therapy","occupational-therapy","early-intervention"],
     title: 'Craniosacral & Oral Placement Therapy',
     tone: 'grape',
     short:
@@ -218,7 +242,11 @@ export const services = [
       'We support every child’s development, building confidence, independence, and joyful participation in daily life.',
   },
   {
-    slug: 'group-and-social-therapy',
+    slug: 'group-therapy',
+    seoTitle: "Group & Social Skills Therapy for Kids | Active Little Minds",
+    seoDescription:
+      "Small, therapist-led group sessions in Gurugram where children practise turn-taking, teamwork and friendship skills through guided play.",
+    related: ["speech-therapy","special-education","occupational-therapy"],
     title: 'Group & Social Therapy',
     tone: 'petal',
     short:
@@ -420,16 +448,19 @@ export const founder = {
 // TODO(client): these are general activity clips, not verified parent
 // testimonials — swap in actual testimonial recordings when available.
 export const videos = [
-  { id: 'Qz4QT4EO3Dk', title: 'A day at Active Little Minds' },
-  { id: 'sWv1fjtIrtw', title: 'Summer camp — learning through play' },
-  { id: 'q8HAZaMOwJY', title: 'Fine motor skills, hand-eye coordination' },
-  { id: '2uji59RdVH0', title: 'Discovering letters through play' },
-  { id: 'Tg0pb3VRbiU', title: 'Group activities and teamwork' },
+  { id: 'Qz4QT4EO3Dk', title: 'Summer camp pool party' },
+  { id: 'sWv1fjtIrtw', title: 'Get ready for summer camp' },
+  { id: 'q8HAZaMOwJY', title: 'Trouble holding a pencil? Fine motor activities' },
+  { id: '2uji59RdVH0', title: 'Learning letters through play' },
+  { id: 'Tg0pb3VRbiU', title: 'Interactive group classes' },
 ];
 
 export const posts = [
   {
-    slug: 'autism-spectrum-disorder-asd',
+    slug: 'autism-spectrum-disorder',
+    date: '2025-11-09',
+    seoTitle: "Autism Spectrum Disorder (ASD) | Active Little Minds",
+    related: ["speech-therapy","occupational-therapy","early-intervention","group-therapy"],
     title: 'Autism Spectrum Disorder (ASD)',
     dateLabel: '9 November 2025',
     category: 'Autism Spectrum Disorder (ASD)',
@@ -440,7 +471,10 @@ export const posts = [
     body: null,
   },
   {
-    slug: 'top-8-tips-for-early-childhood-development',
+    slug: 'early-childhood-development-tips',
+    date: '2025-09-06',
+    seoTitle: "Top 8 Early Childhood Development Tips | Active Little Minds",
+    related: ["early-intervention","speech-therapy","occupational-therapy"],
     title: 'Top 8 Tips for Early Childhood Development',
     dateLabel: '6 September 2025',
     category: 'Child Development',
@@ -448,54 +482,4 @@ export const posts = [
       'Practical things parents can do at home to support communication, motor skills, and confidence in the early years.',
     body: null,
   },
-];
-
-/**
- * Per-route titles and descriptions. Kept here so the pages and the
- * prerender script (scripts/prerender.mjs) cannot drift apart.
- */
-export const seo = {
-  '/': {
-    title: 'Child development & speech therapy in Gurugram | Active Little Minds',
-    description:
-      'Speech therapy, occupational therapy, physiotherapy and special education for children in Sector 23, Gurugram. Assessment-led plans, therapists under one roof, free first consultation.',
-  },
-  '/about': {
-    title: 'About us | Active Little Minds, Gurugram',
-    description:
-      'Active Little Minds is a child development centre in Sector 23, Gurugram. Meet the team of therapists and special educators, and read what we believe about how children grow.',
-  },
-  '/services': {
-    title: 'Therapies for children | Active Little Minds, Gurugram',
-    description:
-      'Speech and language therapy, occupational therapy and sensory integration, early intervention, pediatric physiotherapy, special education, craniosacral therapy and group therapy in Gurugram.',
-  },
-  '/blog': {
-    title: 'Blogs | Active Little Minds',
-    description:
-      'Plain-language articles on autism, early childhood development and what parents can do at home, written by the team at Active Little Minds.',
-  },
-  '/contact': {
-    title: 'Visit us | Active Little Minds, Sector 23 Gurugram',
-    description: `Active Little Minds child development centre, ${clinic.address}. Call ${clinic.phoneDisplay}, message on WhatsApp, or send an enquiry to book a free first consultation.`,
-  },
-};
-
-/** Title and description for one therapy page. */
-export const serviceSeo = (service) => ({
-  title: `${service.title} | Active Little Minds, Gurugram`,
-  description: service.short,
-});
-
-/** Title and description for one blog post page. */
-export const postSeo = (post) => ({
-  title: `${post.title} | Active Little Minds Blog`,
-  description: post.excerpt,
-});
-
-/** Every route that should exist as a real page on disk. */
-export const routes = [
-  ...Object.keys(seo),
-  ...services.map((s) => `/services/${s.slug}`),
-  ...posts.map((p) => `/blog/${p.slug}`),
 ];

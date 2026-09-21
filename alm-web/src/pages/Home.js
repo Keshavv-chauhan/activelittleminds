@@ -1,8 +1,19 @@
 import React from 'react';
 import { Link } from 'react-router-dom';
-import { clinic, concerns, whyUs, testimonials, sampleTestimonials, stories, founder, videos, seo } from '../content';
-import { photos } from '../images';
-import { usePageMeta, StartCard, ServiceTiles, FaqList } from '../components/Bits';
+import {
+  clinic,
+  concerns,
+  whyUs,
+  testimonials,
+  sampleTestimonials,
+  stories,
+  founder,
+  videos,
+} from '../content';
+import { paths } from '../site';
+import { photos, sizes } from '../images';
+import { StartCard, ServiceTiles, FaqList } from '../components/Bits';
+import Photo from '../components/Photo';
 import { reasonIcon } from '../components/Icons';
 import { AnimalParade, Bunny, Chick, FounderPortrait } from '../components/Animals';
 import { Gallery, VideoCarousel } from '../components/Media';
@@ -28,8 +39,6 @@ const GALLERY = [
 ];
 
 export default function Home() {
-  usePageMeta(seo['/'].title, seo['/'].description);
-
   return (
     <>
       <section className="hero">
@@ -39,10 +48,10 @@ export default function Home() {
           <div>
             <h1>Every child has a first word, a first step, a first friend.</h1>
             <p className="hero__lead">
-              We are a child development centre in Gurugram helping children
-              with autism, ADHD, speech delay and other developmental
-              differences reach those moments — and helping parents know what
-              to do next.
+              We are a child development centre in Palam Vihar, Gurugram,
+              helping children with autism, ADHD, speech delay and other
+              developmental differences reach those moments — and helping
+              parents know what to do next.
             </p>
             <div className="btn-row">
               <a className="btn btn--primary" href={clinic.phoneHref}>
@@ -58,11 +67,10 @@ export default function Home() {
           </div>
 
           <div className="archphoto archphoto--tall">
-            <img
-              src={photos.playground.src}
-              alt={photos.playground.alt}
-              width="1280"
-              height="1600"
+            <Photo
+              photo={photos.playgroundHero}
+              priority
+              sizes={sizes.hero}
             />
           </div>
         </div>
@@ -85,8 +93,12 @@ export default function Home() {
               </li>
             ))}
           </ul>
+          <p className="head__more">
+            Wondering where to start?{' '}
+            <Link to={paths.services}>See every therapy we offer</Link>.
+          </p>
           <div className="btn-row">
-            <Link className="btn btn--sun" to="/contact">
+            <Link className="btn btn--sun" to={paths.contact}>
               Talk to a therapist
             </Link>
           </div>
@@ -214,6 +226,10 @@ export default function Home() {
               <p key={para.slice(0, 30)}>{para}</p>
             ))}
             <blockquote className="founder__quote">“{founder.quote}”</blockquote>
+            <p>
+              <Link to={paths.about}>Meet the whole team</Link> or{' '}
+              <Link to={paths.contact}>book a visit</Link>.
+            </p>
             {founder.draft && (
               <div className="notice">
                 <p>
@@ -232,6 +248,12 @@ export default function Home() {
           <div>
             <div className="head">
               <h2>Questions parents ask first</h2>
+              <p>
+                Something else on your mind?{' '}
+                <Link to={paths.contact}>Ask us directly</Link>, or{' '}
+                <Link to={paths.services}>compare the therapies</Link> in
+                detail.
+              </p>
             </div>
             <FaqList />
           </div>

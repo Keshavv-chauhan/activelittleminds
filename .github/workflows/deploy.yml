@@ -36,16 +36,13 @@ jobs:
       - run: npm ci
 
       # Serving from the apex domain activelittleminds.com, so the site lives
-      # at the root: PUBLIC_URL stays empty and the React Router basename
-      # (see src/index.js) resolves to "/".
+      # at the root: PUBLIC_URL stays empty. `npm run build` also renders every
+      # page to static HTML, writes 404.html / sitemap.xml / robots.txt, and runs
+      # the SEO + broken-link checks: any failure stops the deploy.
       - run: npm run build
         env:
           CI: true
           PUBLIC_URL: ''
-
-      # GitHub Pages serves 404.html for unknown paths; handing it the app
-      # shell lets client-side routes load when opened directly.
-      - run: cp build/index.html build/404.html
 
       - uses: actions/upload-pages-artifact@v3
         with:

@@ -1,23 +1,9 @@
-import React, { useEffect } from 'react';
-import { Link } from 'react-router-dom';
+import React from 'react';
+import { Link, useLocation } from 'react-router-dom';
 import { clinic, services, faqs } from '../content';
+import { paths } from '../site';
+import { breadcrumbsFor } from '../seo';
 import { serviceIcon } from './Icons';
-
-/** Sets the document title and meta description per route. */
-export function usePageMeta(title, description) {
-  useEffect(() => {
-    document.title = title;
-    if (description) {
-      let tag = document.querySelector('meta[name="description"]');
-      if (!tag) {
-        tag = document.createElement('meta');
-        tag.setAttribute('name', 'description');
-        document.head.appendChild(tag);
-      }
-      tag.setAttribute('content', description);
-    }
-  }, [title, description]);
-}
 
 export function StartCard() {
   return (
@@ -36,28 +22,34 @@ export function StartCard() {
         </a>
       </div>
       <p className="startcard__line">
-        Prefer to write? <Link to="/contact">Send an enquiry</Link>
+        Prefer to write? <Link to={paths.contact}>Send an enquiry</Link>
       </p>
     </div>
   );
 }
 
-export function ServiceTiles({ items = services }) {
+/**
+ * Therapy cards. `headingLevel` lets the caller keep the page outline valid:
+ * pass 2 when the cards sit directly under the page's h1, 3 (the default) when
+ * they sit under an h2.
+ */
+export function ServiceTiles({ items = services, headingLevel = 3 }) {
+  const Heading = `h${headingLevel}`;
   return (
     <div className="tiles">
       {items.map((s) => {
         const Icon = serviceIcon[s.slug];
         return (
-        <Link
-          key={s.slug}
-          to={`/services/${s.slug}`}
-          className={`tile tile--${s.tone}`}
-        >
-          {Icon && <Icon className="tile__icon" />}
-          <h3>{s.title}</h3>
-          <p>{s.short}</p>
-          <span className="tile__more">Read about this therapy</span>
-        </Link>
+          <Link
+            key={s.slug}
+            to={paths.service(s.slug)}
+            className={`tile tile--${s.tone}`}
+          >
+            {Icon && <Icon className="tile__icon" />}
+            <Heading className="tile__title">{s.title}</Heading>
+            <p>{s.short}</p>
+            <span className="tile__more">Read about this therapy</span>
+          </Link>
         );
       })}
     </div>
@@ -74,5 +66,30 @@ export function FaqList({ items = faqs }) {
         </details>
       ))}
     </div>
+  );
+}
+
+/** Visible breadcrumb trail. Its data also feeds the BreadcrumbList schema. */
+export function Breadcrumbs() {
+  const { pathname } = useLocation();
+  const trail = breadcrumbsFor(pathname);
+  if (trail.length < 2) return null;
+  return (
+    <nav className="crumbs" aria-label="Breadcrumb">
+      <ol>
+        {trail.map((step, i) => {
+          const last = i === trail.length - 1;
+          return (
+            <li key={step.path}>
+              {last ? (
+                <span aria-current="page">{step.name}</span>
+              ) : (
+                <Link to={step.path}>{step.name}</Link>
+              )}
+            </li>
+          );
+        })}
+      </ol>
+    </nav>
   );
 }
