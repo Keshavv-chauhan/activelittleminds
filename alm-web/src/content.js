@@ -309,7 +309,7 @@ export const whyUs = [
 ];
 
 export const team = [
-  { name: 'Dr. Srishti', role: 'Founder & Child Development Specialist', tone: 'sun' },
+  { name: 'Dr. Srishti Tripathi', role: 'Founder & Director, Pediatric Physiotherapist', tone: 'sun' },
   { name: 'Sonam', role: 'Speech & Language Therapist', tone: 'sky' },
   { name: 'Harshita', role: 'Occupational Therapist', tone: 'petal' },
   { name: 'Rupal', role: 'Special Educator', tone: 'mint' },
@@ -423,25 +423,26 @@ export const faqs = [
   },
 ];
 
-// TODO(client): this is placeholder copy — confirm Dr. Srishti's real
-// qualifications and replace the illustrated portrait with an actual photo
-// before launch. The founding story below is drawn from the real "Our
-// Story" copy on the about page; the credentials list is not.
+// TODO(client): a real photo of Dr. Srishti would replace the illustrated
+// portrait nicely — send one when you have it. The bio, credentials and
+// quote below are her own, confirmed copy.
 export const founder = {
-  name: 'Dr. Srishti',
-  role: 'Founder & Child Development Specialist',
+  name: 'Dr. Srishti Tripathi',
+  role: 'Founder & Director, Pediatric Physiotherapist & Child Development Specialist',
   credentials: [
-    'M.Sc. in Child Development',
-    'Certified in early intervention practice',
-    '10+ years working with neurodivergent children',
+    'M.Sc. in Neurological Physiotherapy',
+    '11+ years in pediatric rehabilitation and child development',
+    'Specialised in sensory integration, NDT, neonatal care, autism, dysgraphia and pediatric mental health',
+    'Partner, Cloudnine Hospital, Gurugram',
+    'Founder, Kindora India',
   ],
   bio: [
-    'Dr. Srishti founded Active Little Minds after watching parents struggle to find one place where therapy, education and care came together — instead of carrying their child between three different clinics.',
-    'She still works in the centre every day, alongside the therapists and families who have built it with her since the first few sessions.',
+    'Dr. Srishti Tripathi is a Pediatric Physiotherapist, Child Development Specialist, and the Founder & Director of Active Little Minds, with over 11 years of experience in pediatric rehabilitation and child development. She holds a Master’s in Neurological Physiotherapy, with specialised expertise in sensory integration, neuro-developmental therapy (NDT), neonatal care, autism, dysgraphia and pediatric mental health.',
+    'What sets her approach apart is a philosophy built on generalisation — helping children carry the skills they learn in therapy into everyday life. Families are central to that journey: parents and caregivers are guided to support therapeutic goals through everyday routines, so progress stays consistent well beyond scheduled sessions.',
+    'She is also Partner at Cloudnine Hospital, Gurugram, and Founder of Kindora India. Through Active Little Minds, her vision is to combine therapy, family empowerment and real-world skill-building so children can participate more confidently, function more independently, and thrive beyond the therapy centre.',
   ],
   quote:
-    'Every child, regardless of their challenges, carries an infinite spark of potential. That belief is what this centre was built on, and it is what we come back to every day.',
-  draft: true,
+    'Progress is not limited to what a child can accomplish inside a therapy room — the real measure of success is whether those skills can be applied confidently at home, in school, and in social environments.',
 };
 
 // Real videos from the clinic's own YouTube channel (@ActiveLittleMinds).

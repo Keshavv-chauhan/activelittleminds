@@ -230,15 +230,6 @@ export default function Home() {
               <Link to={paths.about}>Meet the whole team</Link> or{' '}
               <Link to={paths.contact}>book a visit</Link>.
             </p>
-            {founder.draft && (
-              <div className="notice">
-                <p>
-                  Note for the client: this bio, the credentials list and the
-                  portrait are placeholders. Send us Dr. Srishti's real
-                  qualifications and a photo before launch.
-                </p>
-              </div>
-            )}
           </div>
         </div>
       </section>

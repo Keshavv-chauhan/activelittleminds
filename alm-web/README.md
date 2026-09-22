@@ -181,18 +181,18 @@ Search the source for `TODO(client)`:
    Adding a `body` array to a post in `content.js` publishes it: it joins the
    sitemap and the "Related reading" links automatically.
 5. **Photos**: team portraits are coloured initials, and the founder portrait is an
-   illustration. Six real photos would finish the site.
+   illustration. Six real photos would finish the site (founder bio and credentials
+   are now real, confirmed copy — only her photo is still a placeholder).
 6. **Logo resolution**: the logo file is only 132x134 px, so the 192 px and 512 px
    app icons are upscaled and soft. A larger original would fix it; re-run the image
    script afterwards.
 7. **Testimonials** are unattributed, and four are labelled samples that must be
    replaced or removed before launch.
-8. **Founder bio and credentials** are drafted placeholders.
-9. **Video row**: these are real clips from the clinic's YouTube channel (activity
+8. **Video row**: these are real clips from the clinic's YouTube channel (activity
    Shorts), not parent testimonials. Swap the `videos` list when real ones exist.
-10. **Form delivery**: the enquiry form opens the visitor's mail app. Point it at a
-    real endpoint (Formspree, Netlify Forms, or your own) before launch.
-11. **Old-site keywords**: the previous homepage targeted phrases such as adult
+9. **Form delivery**: the enquiry form opens the visitor's mail app. Point it at a
+   real endpoint (Formspree, Netlify Forms, or your own) before launch.
+10. **Old-site keywords**: the previous homepage targeted phrases such as adult
     speech therapy, stuttering, fluency and voice therapy, and speech therapy at
     home. None of those services appear in the clinic's own service copy, so they
     were not added. If they are offered, say so and they can be added properly.
