@@ -13,6 +13,12 @@ service cloud.firestore {
         exists(/databases/$(database)/documents/admins/$(request.auth.uid));
     }
 
+    // Field is either absent/null, or a string within maxLen — used for the
+    // handful of optional form fields below.
+    function optionalString(v, maxLen) {
+      return v == null || (v is string && v.size() <= maxLen);
+    }
+
     match /admins/{uid} {
       allow read: if request.auth != null && request.auth.uid == uid;
       allow write: if false;
@@ -34,10 +40,11 @@ service cloud.firestore {
         && request.resource.data.source is string
         && request.resource.data.source.size() > 0
         && request.resource.data.source.size() <= 100
-        && (request.resource.data.rating == null
-            || (request.resource.data.rating is int
-                && request.resource.data.rating >= 1
-                && request.resource.data.rating <= 5))
+        && (request.resource.data.rating == null || (
+              request.resource.data.rating is int
+              && request.resource.data.rating >= 1
+              && request.resource.data.rating <= 5
+            ))
         && request.resource.data.keys().hasOnly(['quote', 'source', 'rating', 'approved', 'createdAt']);
 
       allow read: if resource.data.approved == true || isAdmin();
@@ -48,6 +55,11 @@ service cloud.firestore {
       // The "Book a consultation" form. Never publicly readable — this is a
       // visitor's name and phone number — only creatable, and only as a
       // well-formed, unstatused-by-the-submitter entry.
+      //
+      // NOTE: `service` is accessed with bracket notation below
+      // (`data['service']`, not `data.service`) — this DSL's parser treats
+      // `service` as reserved (it's the keyword that opens this whole file,
+      // `service cloud.firestore { ... }`) and errors on the dotted form.
       allow create: if request.resource.data.status == 'new'
         && request.resource.data.name is string
         && request.resource.data.name.size() > 0
@@ -55,9 +67,9 @@ service cloud.firestore {
         && request.resource.data.phone is string
         && request.resource.data.phone.size() > 0
         && request.resource.data.phone.size() <= 30
-        && (request.resource.data.childAge == null || (request.resource.data.childAge is string && request.resource.data.childAge.size() <= 20))
-        && (request.resource.data.service == null || (request.resource.data.service is string && request.resource.data.service.size() <= 100))
-        && (request.resource.data.message == null || (request.resource.data.message is string && request.resource.data.message.size() <= 1000))
+        && optionalString(request.resource.data.childAge, 20)
+        && optionalString(request.resource.data['service'], 100)
+        && optionalString(request.resource.data.message, 1000)
         && request.resource.data.keys().hasOnly(['name', 'phone', 'childAge', 'service', 'message', 'status', 'createdAt']);
 
       allow read, update, delete: if isAdmin();
