@@ -30,10 +30,12 @@ service cloud.firestore {
     }
 
     match /reviews/{reviewId} {
-      // Public review submission: anyone can create one, but only as an
-      // unapproved, well-formed review — never pre-approved, never with
-      // extra fields, never a wall of text.
-      allow create: if request.resource.data.approved == false
+      // Admin can create a review directly (already approved — added on a
+      // parent's behalf, e.g. from a WhatsApp message). Everyone else can
+      // only create one as an unapproved, well-formed review — never
+      // pre-approved, never with extra fields, never a wall of text.
+      allow create: if isAdmin() || (
+        request.resource.data.approved == false
         && request.resource.data.quote is string
         && request.resource.data.quote.size() > 0
         && request.resource.data.quote.size() <= 600
@@ -45,7 +47,8 @@ service cloud.firestore {
               && request.resource.data.rating >= 1
               && request.resource.data.rating <= 5
             ))
-        && request.resource.data.keys().hasOnly(['quote', 'source', 'rating', 'approved', 'createdAt']);
+        && request.resource.data.keys().hasOnly(['quote', 'source', 'rating', 'approved', 'createdAt'])
+      );
 
       allow read: if resource.data.approved == true || isAdmin();
       allow update, delete: if isAdmin();

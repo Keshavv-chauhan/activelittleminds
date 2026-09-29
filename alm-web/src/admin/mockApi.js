@@ -191,11 +191,29 @@ export function mockDeletePost(postId) {
   return Promise.resolve();
 }
 
+export function mockListPublishedPosts() {
+  return Promise.resolve(state.posts.filter((p) => p.published).sort(byNewest));
+}
+
+export function mockGetPublishedPostBySlug(slug) {
+  const post = state.posts.find((p) => p.published && p.slug === slug);
+  return Promise.resolve(post || null);
+}
+
 // ---------- Reviews ----------
 
 export function mockSubmitReview({ quote, source, rating }) {
   state.reviews = [
     { id: nextId(), quote, source, rating: rating || null, approved: false, createdAt: new Date() },
+    ...state.reviews,
+  ];
+  save();
+  return Promise.resolve();
+}
+
+export function mockCreateReviewAsAdmin({ quote, source, rating }) {
+  state.reviews = [
+    { id: nextId(), quote, source, rating: rating || null, approved: true, createdAt: new Date() },
     ...state.reviews,
   ];
   save();

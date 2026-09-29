@@ -1444,12 +1444,6 @@ img.member__portrait {
 /* ---------- Reviews ---------- */
 /* One calm, uniform card style — legible and credible, rather than a
    rainbow of mismatched shapes and colours. */
-.reviews {
-  display: grid;
-  grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
-  gap: var(--s4);
-  align-items: stretch;
-}
 .review-card {
   display: flex;
   flex-direction: column;

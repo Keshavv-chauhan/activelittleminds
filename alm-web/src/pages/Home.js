@@ -1,12 +1,9 @@
-import React from 'react';
+import React, { useEffect, useState } from 'react';
 import { Link } from 'react-router-dom';
 import {
   clinic,
   concerns,
   whyUs,
-  testimonials,
-  sampleTestimonials,
-  stories,
   founder,
   videos,
 } from '../content';
@@ -14,10 +11,11 @@ import { paths } from '../site';
 import { photos, sizes } from '../images';
 import { StartCard, ServiceTiles, FaqList } from '../components/Bits';
 import Photo from '../components/Photo';
-import { reasonIcon, Quote, Star } from '../components/Icons';
+import { reasonIcon } from '../components/Icons';
 import { AnimalParade, Bunny, Chick } from '../components/Animals';
-import { Gallery, VideoCarousel } from '../components/Media';
+import { Gallery, VideoCarousel, ReviewCarousel } from '../components/Media';
 import ReviewForm from '../components/ReviewForm';
+import { backendAvailable } from '../firebaseConfig';
 
 const DOT_TONES = ['sun', 'mint', 'petal', 'sky', 'grape'];
 
@@ -31,6 +29,28 @@ const GALLERY = [
 ];
 
 export default function Home() {
+  const [reviews, setReviews] = useState(null); // null = loading
+  const [showReviewForm, setShowReviewForm] = useState(false);
+
+  useEffect(() => {
+    if (!backendAvailable) {
+      setReviews([]);
+      return undefined;
+    }
+    let cancelled = false;
+    import('../admin/adminApi')
+      .then(({ listApprovedReviews }) => listApprovedReviews())
+      .then((r) => {
+        if (!cancelled) setReviews(r);
+      })
+      .catch(() => {
+        if (!cancelled) setReviews([]);
+      });
+    return () => {
+      cancelled = true;
+    };
+  }, []);
+
   return (
     <>
       <section className="hero">
@@ -183,42 +203,36 @@ export default function Home() {
           <div className="head">
             <h2>What parents say</h2>
             <p>
-              Not a matched set of cards — just what people told us, in their
-              own words.
+              Real words from the families we work with every day.
             </p>
           </div>
-          <div className="reviews">
-            {[...testimonials, ...stories, ...sampleTestimonials].map((t) => (
-              <figure className="review-card" key={t.quote.slice(0, 24)}>
-                <Quote className="review-card__mark" />
-                {t.rating && (
-                  <div className="review-card__stars" aria-label={`${t.rating} out of 5 stars`}>
-                    {Array.from({ length: 5 }, (_, i) => (
-                      <Star
-                        key={i}
-                        fill={i < t.rating ? 'currentColor' : 'none'}
-                        stroke="currentColor"
-                        strokeWidth="1.5"
-                      />
-                    ))}
-                  </div>
-                )}
-                <blockquote>{t.quote}</blockquote>
-                <figcaption>{t.source}</figcaption>
-              </figure>
-            ))}
-          </div>
-          <div className="notice" style={{ marginTop: 'var(--s5)' }}>
-            <p>
-              Note for the client: four of the cards above are sample quotes
-              added to fill out the layout, clearly labelled "Sample quote —
-              replace before launch." Swap them for real parent testimonials
-              (with permission) or remove them before this goes live.
-            </p>
-          </div>
-          <div className="review-form__wrap">
-            <ReviewForm />
-          </div>
+
+          {reviews === null && <p>Loading reviews…</p>}
+          {reviews && reviews.length === 0 && (
+            <p>Be the first to share how your visit went.</p>
+          )}
+          {reviews && reviews.length > 0 && (
+            <ReviewCarousel reviews={reviews} label="What parents say" />
+          )}
+
+          {backendAvailable && (
+            <>
+              <div className="btn-row" style={{ marginTop: 'var(--s5)' }}>
+                <button
+                  type="button"
+                  className="btn btn--sun"
+                  onClick={() => setShowReviewForm((v) => !v)}
+                >
+                  {showReviewForm ? 'Close' : 'Share your experience'}
+                </button>
+              </div>
+              {showReviewForm && (
+                <div className="review-form__wrap">
+                  <ReviewForm />
+                </div>
+              )}
+            </>
+          )}
         </div>
       </section>
 

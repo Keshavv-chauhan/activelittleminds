@@ -333,51 +333,6 @@ export const stories = [
   },
 ];
 
-export const testimonials = [
-  {
-    quote:
-      'Best place for Autism and ADHD. My son has shown tremendous improvement in communication and behaviour.',
-    source: 'Parent',
-  },
-  {
-    quote:
-      'This is a true home for our kids. Therapists treat them with love, patience, and care.',
-    source: 'Parent',
-  },
-  {
-    quote:
-      'An outstanding therapy centre. The staff has transformed my child’s growth journey.',
-    source: 'Parent',
-  },
-];
-
-// SAMPLE / PLACEHOLDER testimonials — added purely to fill out the reviews
-// grid with more variety than the three real quotes above.
-// TODO(client): replace these with real parent quotes (with permission) or
-// remove them before launch. Names below are placeholders, not real families.
-export const sampleTestimonials = [
-  {
-    quote:
-      'We drove past three other centres to get here, and it was worth every trip. Diya’s speech has come on more in four months than in the two years before.',
-    source: 'Sample quote — replace before launch',
-  },
-  {
-    quote:
-      'The therapists actually talk to each other about Vihaan, not just to us. First place that’s felt like a team.',
-    source: 'Sample quote — replace before launch',
-  },
-  {
-    quote:
-      'Saanvi used to dread appointments. Now she asks when she gets to go back.',
-    source: 'Sample quote — replace before launch',
-  },
-  {
-    quote:
-      'Practical, patient, and they explain what they’re doing and why. That mattered more to us than we expected.',
-    source: 'Sample quote — replace before launch',
-  },
-];
-
 export const faqs = [
   {
     q: 'What types of children do you work with?',

@@ -26,6 +26,7 @@ import {
   query,
   where,
   orderBy,
+  limit,
   serverTimestamp,
 } from 'firebase/firestore';
 import { auth, db } from '../firebase';
@@ -98,6 +99,33 @@ export function deletePost(id) {
   return deleteDoc(doc(db, 'posts', id));
 }
 
+/** Public: only published posts, newest first. Used on /blog/. */
+export async function listPublishedPosts() {
+  if (useMock) return mock.mockListPublishedPosts();
+  assertReady();
+  const snap = await getDocs(
+    query(collection(db, 'posts'), where('published', '==', true), orderBy('createdAt', 'desc'))
+  );
+  return snap.docs.map((d) => ({ id: d.id, ...d.data() }));
+}
+
+/** Public: one published post by slug, or null. Used on /blog/:slug. */
+export async function getPublishedPostBySlug(slug) {
+  if (useMock) return mock.mockGetPublishedPostBySlug(slug);
+  assertReady();
+  const snap = await getDocs(
+    query(
+      collection(db, 'posts'),
+      where('published', '==', true),
+      where('slug', '==', slug),
+      limit(1)
+    )
+  );
+  if (snap.empty) return null;
+  const d = snap.docs[0];
+  return { id: d.id, ...d.data() };
+}
+
 // ---------- Reviews ----------
 // Shape: { quote, source, rating, approved, createdAt }
 
@@ -110,6 +138,19 @@ export function submitReview({ quote, source, rating }) {
     source,
     rating: rating || null,
     approved: false,
+    createdAt: serverTimestamp(),
+  });
+}
+
+/** Admin only — adds a review already approved (e.g. one a parent sent over WhatsApp). */
+export function createReviewAsAdmin({ quote, source, rating }) {
+  if (useMock) return mock.mockCreateReviewAsAdmin({ quote, source, rating });
+  assertReady();
+  return addDoc(collection(db, 'reviews'), {
+    quote,
+    source,
+    rating: rating || null,
+    approved: true,
     createdAt: serverTimestamp(),
   });
 }

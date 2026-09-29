@@ -167,10 +167,15 @@ signed in, `/admin` has three tabs:
 - **Consultation requests** — every "Book a consultation" submission from
   `/contact/`, with the parent's name, phone, child's age, therapy of interest
   and message. Mark one "Contacted" once you've called, or delete it.
-- **Blog posts** — create/edit/delete, draft or published.
-- **Reviews** — approve, unpublish or delete. Anyone visiting the site can
-  submit one via the form under "What parents say" on the homepage, but it
-  only appears once an admin approves it.
+- **Blog posts** — create/edit/delete, draft or published. A published post
+  appears on `/blog/` and gets its own page within seconds — no rebuild or
+  redeploy needed (see "How the public site reads this data" below).
+- **Reviews** — shown on the homepage as a scrolling carousel. Anyone visiting
+  the site can submit one via "Share your experience" under "What parents
+  say," but it only appears once an admin approves it. Admin can also add a
+  review directly from the panel ("New review," e.g. one a parent sent over
+  WhatsApp) — those go live immediately, no approval step, since the admin
+  added it themselves.
 
 Consultation-request data is never publicly readable (see `firestore.rules`)
 — unlike reviews, there's no "approved" state that makes it visible; only a
@@ -187,8 +192,25 @@ then Firestore -> create a doc at `admins/<that user's uid>`).
 Authentication (Email/Password) and Firestore, then Project settings -> your
 apps -> add a Web app to get the config object. Copy `.env.local.example` to
 `.env.local` and fill it in; restart `npm start`. Deploy the security rules
-with `firebase deploy --only firestore:rules` (needs `firebase-tools` and
-`firebase use --add` to point `.firebaserc` at the real project ID).
+and indexes with `firebase deploy --only firestore:rules,firestore:indexes`
+(needs `firebase-tools` and `firebase use --add` to point `.firebaserc` at the
+real project ID). The indexes in `firestore.indexes.json` are not optional —
+without them, the public queries below fail with a "the query requires an
+index" error at runtime (caught and treated as "no data" in the UI, so it
+fails silently rather than with a visible error — a real trap if you add a
+new `where` + `orderBy` combination later and forget to add its index).
+
+**How the public site reads this data.** `/blog/` and the homepage reviews
+carousel fetch straight from Firestore client-side (`listPublishedPosts()`,
+`listApprovedReviews()` in `adminApi.js`) rather than being baked in at build
+time. That is a deliberate trade-off now that SEO is not a priority (see
+below): a new post or review appears within seconds of being added, with no
+rebuild, at the cost of that content not being prerendered — a freshly added
+post's page works fine for a visitor (or a shared link) but is not the
+SEO-optimised static HTML the rest of the site's pages are. `/blog/:slug`
+falls back to a Firestore lookup for any slug not in the static list in
+`content.js`, so posts written entirely in the admin panel still get a
+working page at their own URL.
 
 **Firebase SDK stays out of the public bundle.** `firebaseConfig.js` is a
 zero-dependency "is a project configured" check; `firebase.js` (the real SDK)
@@ -208,12 +230,6 @@ configured yet, it opens the visitor's mail app instead, exactly as it did
 before this was added — an enquiry never just disappears. Clear the fake data
 any time with `localStorage.removeItem('alm-admin-mock-v1')` in the browser
 console.
-
-**Not wired up yet:** blog posts written in the admin panel live in Firestore,
-but the public `/blog/` pages still read from the static list in
-`content.js` — connecting the two (so a published post gets its own
-prerendered, SEO-correct page) is the next step, once the Firebase project
-above actually exists to build and test against.
 
 ## Search Console
 

@@ -1,14 +1,48 @@
-import React from 'react';
+import React, { useEffect, useState } from 'react';
 import { Link } from 'react-router-dom';
-import { posts } from '../content';
+import { posts as staticPosts } from '../content';
 import { paths } from '../site';
 import { Breadcrumbs } from '../components/Bits';
 import { Article } from '../components/Icons';
+import { backendAvailable } from '../firebaseConfig';
 
 const byNewest = (a, b) => new Date(b.date) - new Date(a.date);
 
+/** Firestore posts store a single body string and a createdAt timestamp;
+ *  static posts store a paragraph array and a date string. Normalise
+ *  Firestore ones to match so both render through the same markup. */
+function normalizeFirestorePost(p) {
+  const created = p.createdAt?.toDate ? p.createdAt.toDate() : new Date(p.createdAt);
+  return {
+    ...p,
+    date: created.toISOString(),
+    dateLabel: created.toLocaleDateString('en-IN', { day: 'numeric', month: 'long', year: 'numeric' }),
+    body: p.body ? p.body.split(/\n\s*\n/).filter(Boolean) : null,
+  };
+}
+
 export default function Blog() {
-  const sorted = [...posts].sort(byNewest);
+  const [firestorePosts, setFirestorePosts] = useState([]);
+
+  useEffect(() => {
+    if (!backendAvailable) return;
+    let cancelled = false;
+    import('../admin/adminApi')
+      .then(({ listPublishedPosts }) => listPublishedPosts())
+      .then((list) => {
+        if (!cancelled) setFirestorePosts(list.map(normalizeFirestorePost));
+      })
+      .catch(() => {
+        if (!cancelled) setFirestorePosts([]);
+      });
+    return () => {
+      cancelled = true;
+    };
+  }, []);
+
+  const staticSlugs = new Set(staticPosts.map((p) => p.slug));
+  const all = [...staticPosts, ...firestorePosts.filter((p) => !staticSlugs.has(p.slug))];
+  const sorted = [...all].sort(byNewest);
   // The newest post with real text leads the page; a stub excerpt alone
   // would make a poor first impression in the featured slot.
   const featured = sorted.find((p) => p.body) || sorted[0];
@@ -67,17 +101,6 @@ export default function Blog() {
             <Link to={paths.services}>therapies</Link> or{' '}
             <Link to={paths.contact}>ask the team</Link>.
           </p>
-
-          <div className="notice" style={{ marginTop: 'var(--s4)' }}>
-            <p>
-              Note for the client: "Autism Spectrum Disorder (ASD)" and "Top 8
-              Tips for Early Childhood Development" still need their original
-              text — those URLs served the homepage on the old site. The other
-              four articles are drafted samples added to show what a full post
-              looks like; replace them with clinically-approved copy (or your
-              own writing) before launch.
-            </p>
-          </div>
         </div>
       </section>
     </>

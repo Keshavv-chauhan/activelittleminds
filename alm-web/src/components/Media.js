@@ -1,6 +1,7 @@
 import React, { useCallback, useEffect, useRef, useState } from 'react';
 import Photo from './Photo';
 import { videoPoster } from '../images';
+import { Quote, Star } from './Icons';
 
 const THUMB_SIZES = '(max-width: 980px) 50vw, 280px';
 const THUMB_SIZES_WIDE = '(max-width: 980px) 100vw, 560px';
@@ -132,6 +133,69 @@ export function VideoCarousel({ videos, label = 'Videos' }) {
             </div>
           );
         })}
+      </div>
+      <div className="carousel__controls">
+        <button
+          type="button"
+          className="carousel__btn"
+          onClick={() => scrollByCards(-1)}
+          aria-label={`Scroll ${label} back`}
+        >
+          &#8592;
+        </button>
+        <button
+          type="button"
+          className="carousel__btn"
+          onClick={() => scrollByCards(1)}
+          aria-label={`Scroll ${label} forward`}
+        >
+          &#8594;
+        </button>
+      </div>
+    </div>
+  );
+}
+
+/** Horizontally scrolling row of review cards — same mechanics as VideoCarousel. */
+export function ReviewCarousel({ reviews, label = 'Reviews' }) {
+  const viewport = useRef(null);
+
+  const scrollByCards = useCallback((direction) => {
+    const el = viewport.current;
+    if (!el) return;
+    const card = el.querySelector('.carousel__slide');
+    const step = card ? card.offsetWidth + 28 : el.clientWidth * 0.8;
+    el.scrollBy({ left: step * direction, behavior: 'smooth' });
+  }, []);
+
+  return (
+    <div className="carousel">
+      <div
+        className="carousel__viewport"
+        ref={viewport}
+        tabIndex={0}
+        role="group"
+        aria-label={label}
+      >
+        {reviews.map((r) => (
+          <figure className="carousel__slide review-card" key={r.id}>
+            <Quote className="review-card__mark" />
+            {r.rating && (
+              <div className="review-card__stars" aria-label={`${r.rating} out of 5 stars`}>
+                {Array.from({ length: 5 }, (_, i) => (
+                  <Star
+                    key={i}
+                    fill={i < r.rating ? 'currentColor' : 'none'}
+                    stroke="currentColor"
+                    strokeWidth="1.5"
+                  />
+                ))}
+              </div>
+            )}
+            <blockquote>{r.quote}</blockquote>
+            <figcaption>{r.source}</figcaption>
+          </figure>
+        ))}
       </div>
       <div className="carousel__controls">
         <button
