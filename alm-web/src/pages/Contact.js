@@ -3,15 +3,14 @@ import { Link } from 'react-router-dom';
 import { clinic, services } from '../content';
 import { paths } from '../site';
 import { Breadcrumbs } from '../components/Bits';
+import { backendAvailable } from '../firebaseConfig';
 
 export default function Contact() {
   const [sent, setSent] = useState(false);
+  const [sending, setSending] = useState(false);
+  const [error, setError] = useState('');
 
-  // No backend is wired up yet. This hands the enquiry to the clinic's inbox
-  // so the form is usable on day one; swap for a real endpoint when available.
-  function handleSubmit(event) {
-    event.preventDefault();
-    const data = new FormData(event.currentTarget);
+  function sendByEmail(data) {
     const body = [
       `Parent: ${data.get('name')}`,
       `Phone: ${data.get('phone')}`,
@@ -23,7 +22,44 @@ export default function Contact() {
     window.location.href = `mailto:${clinic.email}?subject=${encodeURIComponent(
       'Consultation enquiry from the website'
     )}&body=${encodeURIComponent(body)}`;
-    setSent(true);
+  }
+
+  async function handleSubmit(event) {
+    event.preventDefault();
+    // The native event's currentTarget goes null once the synchronous part of
+    // the handler returns, which happens at the first `await` below — capture
+    // it now, not after.
+    const form = event.currentTarget;
+    const data = new FormData(form);
+
+    // No Firebase project configured yet on a live deploy: fall back to the
+    // visitor's own mail app rather than losing the enquiry.
+    if (!backendAvailable) {
+      sendByEmail(data);
+      setSent(true);
+      return;
+    }
+
+    setSending(true);
+    setError('');
+    try {
+      // Loaded on demand so the Firebase SDK never ships in the page's
+      // initial bundle — only someone who actually submits pulls it in.
+      const { submitEnquiry } = await import('../admin/adminApi');
+      await submitEnquiry({
+        name: data.get('name'),
+        phone: data.get('phone'),
+        childAge: data.get('age'),
+        service: data.get('service'),
+        message: data.get('message'),
+      });
+      setSent(true);
+      form.reset();
+    } catch (err) {
+      setError(`Something went wrong sending that. Please call ${clinic.phoneDisplay} instead.`);
+    } finally {
+      setSending(false);
+    }
   }
 
   return (
@@ -143,14 +179,20 @@ export default function Contact() {
               <textarea id="message" name="message" />
             </div>
 
-            <button className="btn btn--primary btn--full" type="submit">
-              Send enquiry
+            <button className="btn btn--primary btn--full" type="submit" disabled={sending}>
+              {sending ? 'Sending…' : 'Send enquiry'}
             </button>
 
             {sent && (
               <p className="form__status" role="status">
-                Your email app should now be open with the enquiry ready to
-                send. If nothing happened, call {clinic.phoneDisplay}.
+                {backendAvailable
+                  ? `Thank you — we've received your enquiry and will call you back shortly.`
+                  : `Your email app should now be open with the enquiry ready to send. If nothing happened, call ${clinic.phoneDisplay}.`}
+              </p>
+            )}
+            {error && (
+              <p className="form__status" role="alert">
+                {error}
               </p>
             )}
           </form>

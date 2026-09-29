@@ -2,10 +2,12 @@ import React, { useEffect, useState } from 'react';
 import { useNavigate } from 'react-router-dom';
 import { watchAuth, signOutAdmin } from './adminApi';
 import { firebaseReady, backendAvailable } from '../firebaseConfig';
+import AdminEnquiries from './AdminEnquiries';
 import AdminPosts from './AdminPosts';
 import AdminReviews from './AdminReviews';
 
 const TABS = [
+  { id: 'enquiries', label: 'Consultation requests' },
   { id: 'posts', label: 'Blog posts' },
   { id: 'reviews', label: 'Reviews' },
 ];
@@ -13,7 +15,7 @@ const TABS = [
 export default function AdminDashboard() {
   const navigate = useNavigate();
   const [user, setUser] = useState(undefined); // undefined = still checking
-  const [tab, setTab] = useState('posts');
+  const [tab, setTab] = useState('enquiries');
 
   useEffect(() => {
     document.title = 'Admin — Active Little Minds';
@@ -44,7 +46,8 @@ export default function AdminDashboard() {
     <div className="admin">
       {!firebaseReady && (
         <div className="admin__demo-banner">
-          Local preview — no Firebase project connected yet. Everything below is fake, in-memory data that resets on reload.
+          Local preview — no Firebase project connected yet. Everything below is fake data saved to this browser only
+          (not a real database) — clear it any time from your browser's site data settings.
         </div>
       )}
       <header className="admin__bar">
@@ -73,6 +76,7 @@ export default function AdminDashboard() {
       </nav>
 
       <div className="admin__content">
+        {tab === 'enquiries' && <AdminEnquiries />}
         {tab === 'posts' && <AdminPosts />}
         {tab === 'reviews' && <AdminReviews />}
       </div>

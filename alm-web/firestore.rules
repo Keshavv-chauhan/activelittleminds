@@ -43,5 +43,24 @@ service cloud.firestore {
       allow read: if resource.data.approved == true || isAdmin();
       allow update, delete: if isAdmin();
     }
+
+    match /enquiries/{enquiryId} {
+      // The "Book a consultation" form. Never publicly readable — this is a
+      // visitor's name and phone number — only creatable, and only as a
+      // well-formed, unstatused-by-the-submitter entry.
+      allow create: if request.resource.data.status == 'new'
+        && request.resource.data.name is string
+        && request.resource.data.name.size() > 0
+        && request.resource.data.name.size() <= 100
+        && request.resource.data.phone is string
+        && request.resource.data.phone.size() > 0
+        && request.resource.data.phone.size() <= 30
+        && (request.resource.data.childAge == null || (request.resource.data.childAge is string && request.resource.data.childAge.size() <= 20))
+        && (request.resource.data.service == null || (request.resource.data.service is string && request.resource.data.service.size() <= 100))
+        && (request.resource.data.message == null || (request.resource.data.message is string && request.resource.data.message.size() <= 1000))
+        && request.resource.data.keys().hasOnly(['name', 'phone', 'childAge', 'service', 'message', 'status', 'createdAt']);
+
+      allow read, update, delete: if isAdmin();
+    }
   }
 }

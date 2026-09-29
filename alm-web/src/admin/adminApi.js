@@ -6,10 +6,10 @@
  * just wraps the SDK calls, it is not itself the security boundary.
  *
  * Until a real Firebase project is configured, every function below falls
- * back to mockApi.js (in-memory fake data) so the panel can be tried locally
- * — but ONLY in a dev build. A production build with no Firebase configured
- * throws NOT_CONFIGURED instead, exactly as before: a real visitor can never
- * hit fake data.
+ * back to mockApi.js (fake data saved to this browser's localStorage) so the
+ * panel can be tried locally — but ONLY in a dev build. A production build
+ * with no Firebase configured throws NOT_CONFIGURED instead, exactly as
+ * before: a real visitor can never hit fake data.
  */
 import {
   signInWithEmailAndPassword,
@@ -142,4 +142,44 @@ export function deleteReview(id) {
   if (useMock) return mock.mockDeleteReview(id);
   assertReady();
   return deleteDoc(doc(db, 'reviews', id));
+}
+
+// ---------- Enquiries ("Book a consultation" form) ----------
+// Shape: { name, phone, childAge, service, message, status, createdAt }
+// Never publicly readable — this is the visitor's name and phone number.
+// See firestore.rules: create is open, read/update/delete is admin-only.
+
+/** Anyone can call this — the contact form's submit handler. */
+export function submitEnquiry({ name, phone, childAge, service, message }) {
+  if (useMock) return mock.mockSubmitEnquiry({ name, phone, childAge, service, message });
+  assertReady();
+  return addDoc(collection(db, 'enquiries'), {
+    name,
+    phone,
+    childAge: childAge || null,
+    service: service || null,
+    message: message || null,
+    status: 'new',
+    createdAt: serverTimestamp(),
+  });
+}
+
+/** Admin only. */
+export async function listEnquiries() {
+  if (useMock) return mock.mockListEnquiries();
+  assertReady();
+  const snap = await getDocs(query(collection(db, 'enquiries'), orderBy('createdAt', 'desc')));
+  return snap.docs.map((d) => ({ id: d.id, ...d.data() }));
+}
+
+export function setEnquiryStatus(id, status) {
+  if (useMock) return mock.mockSetEnquiryStatus(id, status);
+  assertReady();
+  return updateDoc(doc(db, 'enquiries', id), { status });
+}
+
+export function deleteEnquiry(id) {
+  if (useMock) return mock.mockDeleteEnquiry(id);
+  assertReady();
+  return deleteDoc(doc(db, 'enquiries', id));
 }

@@ -4,6 +4,13 @@ React (Create React App) site for https://activelittleminds.com, hosted on GitHu
 Pages. It replaced a GoDaddy Website Builder site whose content was trapped in
 HTML embeds clipped to 150px tall, invisible to visitors and search engines.
 
+**SEO is frozen, not a current priority.** Titles, meta descriptions, sitemap,
+robots.txt and structured data are already in place and stay as they are —
+no further SEO work, keyword optimisation or Search Console monitoring
+without it being asked for again. Prerendering itself (below) is kept
+regardless: it's what makes every page actually load rather than 404 on a
+direct visit or refresh, a functional requirement rather than an SEO extra.
+
 ## Run
 
 ```bash
@@ -152,13 +159,22 @@ Google Analytics 4, measurement ID `G-39K18ZX0KT`, is set up in
 
 ## Admin panel
 
-The client manages blog posts and reviews themselves at `/admin-login` — no
-developer needed, and the link is deliberately not in the nav, footer, or
-sitemap. Sign-in is Firebase Auth (email/password); once signed in, `/admin`
-has two tabs: **Blog posts** (create/edit/delete, draft or published) and
-**Reviews** (approve, unpublish or delete — anyone visiting the site can
-submit one via the form under "What parents say" on the homepage, but it only
-appears once an admin approves it).
+The client manages consultation requests, blog posts and reviews themselves at
+`/admin-login` — no developer needed, and the link is deliberately not in the
+nav, footer, or sitemap. Sign-in is Firebase Auth (email/password); once
+signed in, `/admin` has three tabs:
+
+- **Consultation requests** — every "Book a consultation" submission from
+  `/contact/`, with the parent's name, phone, child's age, therapy of interest
+  and message. Mark one "Contacted" once you've called, or delete it.
+- **Blog posts** — create/edit/delete, draft or published.
+- **Reviews** — approve, unpublish or delete. Anyone visiting the site can
+  submit one via the form under "What parents say" on the homepage, but it
+  only appears once an admin approves it.
+
+Consultation-request data is never publicly readable (see `firestore.rules`)
+— unlike reviews, there's no "approved" state that makes it visible; only a
+signed-in admin can read it at all.
 
 **The hidden URL is not the security boundary.** Anyone who finds
 `/admin-login` gets a login form either way; what actually stops them is
@@ -179,6 +195,19 @@ zero-dependency "is a project configured" check; `firebase.js` (the real SDK)
 is only pulled in by code that runs inside `/admin` or by `ReviewForm`'s
 submit handler via a dynamic `import()` — a visitor who never opens the admin
 panel or submits a review never downloads it.
+
+**Trying it before Firebase exists:** run `npm start` without a `.env.local`
+and the whole panel — sign-in, all three tabs, the review form, the contact
+form — works against `mockApi.js`, fake data saved to your browser's
+`localStorage` (not a real database, not shared with anyone). A yellow banner
+in the admin panel makes this obvious. It never activates in a production
+build (`npm run build`): with no Firebase configured, that instead shows the
+plain "not configured" message, so a real visitor can never reach fake data.
+The contact form has its own fallback in production: with no Firebase
+configured yet, it opens the visitor's mail app instead, exactly as it did
+before this was added — an enquiry never just disappears. Clear the fake data
+any time with `localStorage.removeItem('alm-admin-mock-v1')` in the browser
+console.
 
 **Not wired up yet:** blog posts written in the admin panel live in Firestore,
 but the public `/blog/` pages still read from the static list in

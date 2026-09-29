@@ -9,7 +9,7 @@ import { Star } from './Icons';
  *
  * Hidden entirely on a production build with no Firebase project configured
  * (nothing to submit to); in local dev it still renders against mockApi.js's
- * in-memory fake data, so the flow can be tried before Firebase exists.
+ * fake, browser-local data, so the flow can be tried before Firebase exists.
  */
 export default function ReviewForm() {
   const [rating, setRating] = useState(5);
@@ -21,9 +21,13 @@ export default function ReviewForm() {
 
   async function handleSubmit(event) {
     event.preventDefault();
+    // The native event's currentTarget goes null once the synchronous part of
+    // the handler returns, which happens at the first `await` below — capture
+    // it now, not after.
+    const form = event.currentTarget;
     setBusy(true);
     setError('');
-    const data = new FormData(event.currentTarget);
+    const data = new FormData(form);
     try {
       // Loaded on demand so the Firebase SDK never ships in the page's
       // initial bundle — only someone who actually submits pulls it in.
@@ -34,7 +38,7 @@ export default function ReviewForm() {
         rating,
       });
       setSent(true);
-      event.currentTarget.reset();
+      form.reset();
       setRating(5);
     } catch (err) {
       setError('Something went wrong sending your review. Please try again.');
@@ -60,7 +64,7 @@ export default function ReviewForm() {
       <p className="form__note">Real families' words help other parents find us.</p>
       {!firebaseReady && (
         <div className="notice">
-          <p>Local preview only — no Firebase project connected yet, so this submits to fake in-memory data.</p>
+          <p>Local preview only — no Firebase project connected yet, so this saves to fake data in your browser, not a real database.</p>
         </div>
       )}
 
