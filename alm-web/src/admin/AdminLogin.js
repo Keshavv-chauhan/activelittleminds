@@ -1,7 +1,7 @@
 import React, { useEffect, useState } from 'react';
 import { useNavigate } from 'react-router-dom';
 import { signIn, watchAuth } from './adminApi';
-import { firebaseReady } from '../firebaseConfig';
+import { firebaseReady, backendAvailable } from '../firebaseConfig';
 
 export default function AdminLogin() {
   const navigate = useNavigate();
@@ -37,7 +37,15 @@ export default function AdminLogin() {
         <h1 style={{ fontSize: 'var(--step-3)' }}>Admin sign in</h1>
         <p className="form__note">Active Little Minds — content admin.</p>
 
-        {!firebaseReady && (
+        {!firebaseReady && backendAvailable && (
+          <div className="notice">
+            <p>
+              Local preview only — no Firebase project connected yet. Enter
+              any email and password to explore the panel with fake data.
+            </p>
+          </div>
+        )}
+        {!backendAvailable && (
           <div className="notice">
             <p>
               Firebase is not configured yet. Add the project values to
@@ -70,7 +78,7 @@ export default function AdminLogin() {
           />
         </div>
 
-        <button className="btn btn--primary btn--full" type="submit" disabled={busy || !firebaseReady}>
+        <button className="btn btn--primary btn--full" type="submit" disabled={busy || !backendAvailable}>
           {busy ? 'Signing in…' : 'Sign in'}
         </button>
 

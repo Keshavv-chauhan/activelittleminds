@@ -1,11 +1,15 @@
 import React, { useState } from 'react';
-import { firebaseReady } from '../firebaseConfig';
+import { firebaseReady, backendAvailable } from '../firebaseConfig';
 import { Star } from './Icons';
 
 /**
  * Public review submission — anyone visiting the site can leave one. It is
  * never shown immediately: every submission lands unapproved in Firestore
  * and only appears on the site once an admin approves it (see AdminReviews).
+ *
+ * Hidden entirely on a production build with no Firebase project configured
+ * (nothing to submit to); in local dev it still renders against mockApi.js's
+ * in-memory fake data, so the flow can be tried before Firebase exists.
  */
 export default function ReviewForm() {
   const [rating, setRating] = useState(5);
@@ -13,7 +17,7 @@ export default function ReviewForm() {
   const [error, setError] = useState('');
   const [busy, setBusy] = useState(false);
 
-  if (!firebaseReady) return null;
+  if (!backendAvailable) return null;
 
   async function handleSubmit(event) {
     event.preventDefault();
@@ -54,6 +58,11 @@ export default function ReviewForm() {
     <form className="form review-form" onSubmit={handleSubmit}>
       <h3 style={{ fontSize: 'var(--step-2)', margin: 0 }}>Share your experience</h3>
       <p className="form__note">Real families' words help other parents find us.</p>
+      {!firebaseReady && (
+        <div className="notice">
+          <p>Local preview only — no Firebase project connected yet, so this submits to fake in-memory data.</p>
+        </div>
+      )}
 
       <div className="field">
         <label htmlFor="rf-rating">Your rating</label>

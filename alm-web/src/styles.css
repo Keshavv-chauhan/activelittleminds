@@ -1779,6 +1779,14 @@ ol {
   min-height: 100vh;
   background: var(--cream);
 }
+.admin__demo-banner {
+  padding: 0.7em var(--s5);
+  background: var(--sun);
+  color: var(--ink);
+  font-weight: 700;
+  font-size: var(--step--1);
+  text-align: center;
+}
 .admin__bar {
   display: flex;
   align-items: center;

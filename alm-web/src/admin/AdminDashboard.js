@@ -1,7 +1,7 @@
 import React, { useEffect, useState } from 'react';
 import { useNavigate } from 'react-router-dom';
 import { watchAuth, signOutAdmin } from './adminApi';
-import { firebaseReady } from '../firebaseConfig';
+import { firebaseReady, backendAvailable } from '../firebaseConfig';
 import AdminPosts from './AdminPosts';
 import AdminReviews from './AdminReviews';
 
@@ -19,12 +19,12 @@ export default function AdminDashboard() {
     document.title = 'Admin — Active Little Minds';
     const unsub = watchAuth((u) => {
       setUser(u);
-      if (!u && firebaseReady) navigate('/admin-login', { replace: true });
+      if (!u && backendAvailable) navigate('/admin-login', { replace: true });
     });
     return unsub;
   }, [navigate]);
 
-  if (!firebaseReady) {
+  if (!backendAvailable) {
     return (
       <div className="admin-auth">
         <div className="notice admin-auth__card">
@@ -42,6 +42,11 @@ export default function AdminDashboard() {
 
   return (
     <div className="admin">
+      {!firebaseReady && (
+        <div className="admin__demo-banner">
+          Local preview — no Firebase project connected yet. Everything below is fake, in-memory data that resets on reload.
+        </div>
+      )}
       <header className="admin__bar">
         <div>
           <strong>Active Little Minds</strong> — admin
