@@ -23,6 +23,33 @@ const root = path.resolve(__dirname, '..');
 const build = path.join(root, 'build');
 const src = path.join(root, 'src');
 
+/*
+ * `react-scripts build` reads .env.production / .env.local itself (via
+ * webpack, substituting process.env.REACT_APP_* at bundle time) — but this
+ * script is a separate, plain `node` process, so without this it never sees
+ * those values. That silently broke prerendering: any component whose
+ * output depends on one of these (e.g. Home.js's "Share your experience"
+ * button, gated on whether Firebase is configured) rendered one way in the
+ * static HTML and a different way in the real bundle, which is exactly a
+ * React hydration mismatch on every single page load. Same precedence CRA
+ * itself uses; first file to set a key wins, later ones don't override it.
+ */
+function loadEnvFile(file) {
+  if (!fs.existsSync(file)) return;
+  for (const line of fs.readFileSync(file, 'utf8').split('\n')) {
+    const trimmed = line.trim();
+    if (!trimmed || trimmed.startsWith('#')) continue;
+    const eq = trimmed.indexOf('=');
+    if (eq === -1) continue;
+    const key = trimmed.slice(0, eq).trim();
+    const value = trimmed.slice(eq + 1).trim();
+    if (!(key in process.env)) process.env[key] = value;
+  }
+}
+for (const f of ['.env.production.local', '.env.local', '.env.production', '.env']) {
+  loadEnvFile(path.join(root, f));
+}
+
 /* -- 1. Let Node run the app's JSX and asset imports ----------------------- */
 
 const manifestPath = path.join(build, 'asset-manifest.json');
