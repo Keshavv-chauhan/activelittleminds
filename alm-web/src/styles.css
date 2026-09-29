@@ -1883,6 +1883,8 @@ img.member__portrait {
 .admin__tabs {
   display: flex;
   gap: var(--s2);
+  max-width: 52rem;
+  margin: 0 auto;
   padding: var(--s4) var(--s5) 0;
 }
 .admin__tab {
@@ -1901,7 +1903,7 @@ img.member__portrait {
 .admin__content {
   padding: var(--s5);
   background: #fff;
-  max-width: 60rem;
+  max-width: 52rem;
   margin: 0 auto;
   border-radius: var(--r-lg);
 }
@@ -1922,9 +1924,9 @@ img.member__portrait {
 }
 .admin-list__row {
   display: flex;
+  flex-direction: column;
   align-items: flex-start;
-  justify-content: space-between;
-  gap: var(--s4);
+  gap: var(--s3);
   padding: var(--s4);
   border-radius: var(--r-md);
   background: var(--paper);
