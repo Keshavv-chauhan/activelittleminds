@@ -156,26 +156,56 @@ export function VideoCarousel({ videos, label = 'Videos' }) {
   );
 }
 
-/** Horizontally scrolling row of review cards — same mechanics as VideoCarousel. */
+/**
+ * Horizontally scrolling row of review cards — same mechanics as
+ * VideoCarousel, plus a slow auto-advance (paused by any interaction —
+ * pointer down, wheel, keyboard focus — for a few seconds, and skipped
+ * entirely for prefers-reduced-motion).
+ */
 export function ReviewCarousel({ reviews, label = 'Reviews' }) {
   const viewport = useRef(null);
+  const resumeTimer = useRef(null);
+  const [autoplay, setAutoplay] = useState(true);
 
   const scrollByCards = useCallback((direction) => {
     const el = viewport.current;
     if (!el) return;
     const card = el.querySelector('.carousel__slide');
     const step = card ? card.offsetWidth + 28 : el.clientWidth * 0.8;
-    el.scrollBy({ left: step * direction, behavior: 'smooth' });
+    const atEnd = el.scrollLeft + el.clientWidth >= el.scrollWidth - 4;
+    if (direction > 0 && atEnd) {
+      el.scrollTo({ left: 0, behavior: 'smooth' });
+    } else {
+      el.scrollBy({ left: step * direction, behavior: 'smooth' });
+    }
   }, []);
 
+  const pauseThenResume = useCallback(() => {
+    setAutoplay(false);
+    clearTimeout(resumeTimer.current);
+    resumeTimer.current = setTimeout(() => setAutoplay(true), 6000);
+  }, []);
+
+  useEffect(() => () => clearTimeout(resumeTimer.current), []);
+
+  useEffect(() => {
+    if (!autoplay || reviews.length <= 1) return undefined;
+    if (window.matchMedia('(prefers-reduced-motion: reduce)').matches) return undefined;
+    const id = setInterval(() => scrollByCards(1), 4000);
+    return () => clearInterval(id);
+  }, [autoplay, reviews.length, scrollByCards]);
+
   return (
-    <div className="carousel">
+    <div className="carousel carousel--reviews">
       <div
         className="carousel__viewport"
         ref={viewport}
         tabIndex={0}
         role="group"
         aria-label={label}
+        onPointerDown={pauseThenResume}
+        onWheel={pauseThenResume}
+        onFocus={pauseThenResume}
       >
         {reviews.map((r) => (
           <figure className="carousel__slide review-card" key={r.id}>
@@ -201,7 +231,10 @@ export function ReviewCarousel({ reviews, label = 'Reviews' }) {
         <button
           type="button"
           className="carousel__btn"
-          onClick={() => scrollByCards(-1)}
+          onClick={() => {
+            pauseThenResume();
+            scrollByCards(-1);
+          }}
           aria-label={`Scroll ${label} back`}
         >
           &#8592;
@@ -209,7 +242,10 @@ export function ReviewCarousel({ reviews, label = 'Reviews' }) {
         <button
           type="button"
           className="carousel__btn"
-          onClick={() => scrollByCards(1)}
+          onClick={() => {
+            pauseThenResume();
+            scrollByCards(1);
+          }}
           aria-label={`Scroll ${label} forward`}
         >
           &#8594;

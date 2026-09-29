@@ -624,6 +624,12 @@ ol {
 .carousel__viewport::-webkit-scrollbar {
   display: none;
 }
+/* Reviews vary a lot in length; stretching every card to match the tallest
+   one in view (flex's default) leaves short quotes with a lot of dead space
+   before the footer. Size each card to its own content instead. */
+.carousel--reviews .carousel__viewport {
+  align-items: flex-start;
+}
 .carousel__slide {
   flex: 0 0 clamp(260px, 32%, 380px);
   scroll-snap-align: start;
@@ -657,6 +663,10 @@ ol {
   display: grid;
   grid-template-columns: repeat(auto-fit, minmax(290px, 1fr));
   gap: var(--s4);
+  /* Grid's default stretch makes every card match the tallest one in its
+     row; excerpts vary enough in length that this left short cards with a
+     dead gap before the footer. Size each to its own content instead. */
+  align-items: start;
 }
 .tile {
   display: flex;
