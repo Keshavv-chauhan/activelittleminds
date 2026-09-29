@@ -217,11 +217,13 @@ Search the source for `TODO(client)`:
 2. **Opening hours** are a placeholder. They are deliberately left out of the
    structured data so Google is not told hours nobody has confirmed.
 3. **Group & Social Therapy** copy is drafted, not clinically approved.
-4. **Blog articles**: both bodies were missing from the old site. Until text is
-   supplied, the two post pages are left out of the sitemap and are not linked from
-   body copy, so search engines and visitors are not steered to near-empty pages.
-   Adding a `body` array to a post in `content.js` publishes it: it joins the
-   sitemap and the "Related reading" links automatically.
+4. **Blog articles**: "Autism Spectrum Disorder (ASD)" and "Top 8 Tips for Early
+   Childhood Development" had their bodies missing from the old site, and are still
+   excerpt-only — supply the original text and add it as a `body` array in
+   `content.js` to publish them (it joins the sitemap and "Related reading" links
+   automatically). The other four articles on `/blog/` are drafted samples (AI-written,
+   not clinically reviewed) added to show what a full post and a populated blog grid
+   look like — replace them with approved writing, or edit them, before launch.
 5. **Photos**: team portraits are coloured initials, and the founder portrait is an
    illustration. Six real photos would finish the site (founder bio and credentials
    are now real, confirmed copy — only her photo is still a placeholder).

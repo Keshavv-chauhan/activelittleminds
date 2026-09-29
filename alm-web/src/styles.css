@@ -735,6 +735,10 @@ ol {
 }
 
 /* ---------- Blog cards ---------- */
+/* An icon circle stands in for a thumbnail (no article photography exists
+   yet) and doubles as the category's colour cue; the category itself reads
+   as a plain label rather than a loud pill, closer to an editorial site
+   than a marketing tile. */
 .post-card {
   display: flex;
   flex-direction: column;
@@ -749,28 +753,40 @@ ol {
   transform: translateY(-6px);
   box-shadow: var(--shadow-md);
 }
-.post-card__category {
-  align-self: flex-start;
+.post-card__icon {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  width: 44px;
+  height: 44px;
+  padding: 10px;
+  box-sizing: content-box;
   border-radius: 999px;
-  padding: 0.3rem 0.85rem;
+  margin-bottom: var(--s3);
+  background: var(--sun-soft);
+  color: var(--ink);
+}
+.post-card:nth-of-type(5n + 2) .post-card__icon {
+  background: var(--mint-soft);
+}
+.post-card:nth-of-type(5n + 3) .post-card__icon {
+  background: var(--petal-soft);
+}
+.post-card:nth-of-type(5n + 4) .post-card__icon {
+  background: var(--sky-soft);
+}
+.post-card:nth-of-type(5n) .post-card__icon {
+  background: var(--grape-soft);
+}
+.post-card__category {
+  display: block;
   font-family: var(--display);
   font-weight: 700;
   font-size: var(--step--2);
-  color: var(--ink);
-  background: var(--sun-soft);
-  margin-bottom: var(--s3);
-}
-.post-card:nth-of-type(5n + 2) .post-card__category {
-  background: var(--mint-soft);
-}
-.post-card:nth-of-type(5n + 3) .post-card__category {
-  background: var(--petal-soft);
-}
-.post-card:nth-of-type(5n + 4) .post-card__category {
-  background: var(--sky-soft);
-}
-.post-card:nth-of-type(5n) .post-card__category {
-  background: var(--grape-soft);
+  text-transform: uppercase;
+  letter-spacing: 0.04em;
+  color: var(--sage);
+  margin-bottom: var(--s1);
 }
 .post-card__title {
   font-size: var(--step-2);
@@ -795,6 +811,56 @@ ol {
   font-weight: 700;
   color: var(--sage);
   white-space: nowrap;
+}
+
+/* ---------- Featured post ---------- */
+.post-feature {
+  display: grid;
+  grid-template-columns: auto 1fr;
+  align-items: center;
+  gap: var(--s5);
+  padding: var(--s5);
+  border-radius: var(--r-lg);
+  background: var(--sky-soft);
+  text-decoration: none;
+  box-shadow: var(--shadow-sm);
+  transition: transform 0.2s ease, box-shadow 0.2s ease;
+}
+.post-feature:hover {
+  transform: translateY(-4px);
+  box-shadow: var(--shadow-md);
+}
+.post-feature__icon {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  width: 64px;
+  height: 64px;
+  padding: 16px;
+  box-sizing: content-box;
+  border-radius: 999px;
+  background: #fff;
+  color: var(--ink);
+}
+.post-feature__title {
+  font-size: var(--step-4);
+  max-width: 32ch;
+}
+.post-feature p {
+  margin: var(--s2) 0 0;
+  max-width: 56ch;
+  color: var(--ink-70);
+}
+@media (max-width: 640px) {
+  .post-feature {
+    grid-template-columns: 1fr;
+    text-align: left;
+  }
+  .post-feature__icon {
+    width: 48px;
+    height: 48px;
+    padding: 12px;
+  }
 }
 
 /* ---------- Reason cards ---------- */

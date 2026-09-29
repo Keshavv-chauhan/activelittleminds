@@ -11,7 +11,10 @@ export default function BlogPost() {
 
   if (!post) return <NotFound />;
 
-  const others = posts.filter((p) => p.slug !== slug);
+  const others = posts
+    .filter((p) => p.slug !== slug)
+    .sort((a, b) => new Date(b.date) - new Date(a.date))
+    .slice(0, 4);
   const therapies = post.related
     .map((rel) => services.find((s) => s.slug === rel))
     .filter(Boolean);

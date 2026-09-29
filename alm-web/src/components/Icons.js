@@ -129,6 +129,14 @@ export const reasonIcon = {
   'A place children want to return to': Heart,
 };
 
+// --- Blog ---
+export const Article = (p) => (
+  <svg {...base} {...p}>
+    <path d="M12 6h24v36H12z" />
+    <path d="M18 16h12M18 23h12M18 30h8" />
+  </svg>
+);
+
 // --- Reviews ---
 export const Quote = (p) => (
   <svg {...base} {...p}>
