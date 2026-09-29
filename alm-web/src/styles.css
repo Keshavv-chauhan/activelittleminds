@@ -214,6 +214,9 @@ ol {
 .section--grape {
   background: var(--grape-soft);
 }
+.section--petal {
+  background: var(--petal-soft);
+}
 .section--sky {
   background: var(--sky-soft);
 }
@@ -286,6 +289,15 @@ ol {
 }
 .btn--outline:hover {
   box-shadow: inset 0 0 0 2.5px var(--ink), var(--shadow-md);
+}
+.btn--small {
+  padding: 0.5em 1.1em;
+  font-size: 0.9rem;
+}
+.btn:disabled {
+  opacity: 0.6;
+  cursor: not-allowed;
+  transform: none;
 }
 .btn--full {
   width: 100%;
@@ -720,6 +732,69 @@ ol {
   font-weight: 700;
   font-size: 1.02rem;
   color: var(--sage);
+}
+
+/* ---------- Blog cards ---------- */
+.post-card {
+  display: flex;
+  flex-direction: column;
+  border-radius: var(--r-lg);
+  padding: var(--s5) var(--s4) var(--s4);
+  text-decoration: none;
+  background: var(--paper);
+  box-shadow: var(--shadow-sm);
+  transition: transform 0.2s ease, box-shadow 0.2s ease;
+}
+.post-card:hover {
+  transform: translateY(-6px);
+  box-shadow: var(--shadow-md);
+}
+.post-card__category {
+  align-self: flex-start;
+  border-radius: 999px;
+  padding: 0.3rem 0.85rem;
+  font-family: var(--display);
+  font-weight: 700;
+  font-size: var(--step--2);
+  color: var(--ink);
+  background: var(--sun-soft);
+  margin-bottom: var(--s3);
+}
+.post-card:nth-of-type(5n + 2) .post-card__category {
+  background: var(--mint-soft);
+}
+.post-card:nth-of-type(5n + 3) .post-card__category {
+  background: var(--petal-soft);
+}
+.post-card:nth-of-type(5n + 4) .post-card__category {
+  background: var(--sky-soft);
+}
+.post-card:nth-of-type(5n) .post-card__category {
+  background: var(--grape-soft);
+}
+.post-card__title {
+  font-size: var(--step-2);
+}
+.post-card p {
+  margin: var(--s2) 0 0;
+  font-size: var(--step--1);
+  color: var(--ink-70);
+}
+.post-card__foot {
+  margin-top: auto;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: var(--s3);
+  padding-top: var(--s4);
+  font-family: var(--display);
+  font-size: var(--step--1);
+  color: var(--ink-60);
+}
+.post-card__read {
+  font-weight: 700;
+  color: var(--sage);
+  white-space: nowrap;
 }
 
 /* ---------- Reason cards ---------- */
@@ -1293,94 +1368,78 @@ ol {
   }
 }
 
-/* ---------- Testimonial casserole ---------- */
-/* A deliberately uneven grid rather than uniform cards — some quotes are one
-   line, some are a paragraph, and letting them take different amounts of
-   room reads as a wall of real voices instead of a matched set of tiles. */
-.casserole {
+/* ---------- Reviews ---------- */
+/* One calm, uniform card style — legible and credible, rather than a
+   rainbow of mismatched shapes and colours. */
+.reviews {
   display: grid;
-  grid-template-columns: repeat(6, 1fr);
-  grid-auto-rows: minmax(140px, auto);
+  grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
   gap: var(--s4);
+  align-items: stretch;
 }
-.casserole__card {
-  grid-column: span 3;
-  border-radius: var(--r-lg);
-  padding: var(--s4);
-  box-shadow: var(--shadow-sm);
+.review-card {
   display: flex;
   flex-direction: column;
-  justify-content: center;
+  background: var(--paper);
+  border-radius: var(--r-lg);
+  padding: var(--s5) var(--s4) var(--s4);
+  box-shadow: var(--shadow-sm);
 }
-.casserole__card--wide {
-  grid-column: span 4;
+.review-card__mark {
+  width: 26px;
+  height: 26px;
+  color: var(--sage);
+  opacity: 0.55;
+  margin-bottom: var(--s2);
 }
-.casserole__card--narrow {
-  grid-column: span 2;
+.review-card__stars {
+  display: flex;
+  gap: 3px;
+  color: var(--sun);
+  margin-bottom: var(--s3);
 }
-.casserole__card--tall {
-  grid-row: span 2;
+.review-card__stars svg {
+  width: 15px;
+  height: 15px;
 }
-.casserole__card blockquote {
+.review-card blockquote {
+  flex: 1;
   margin: 0;
-  font-family: var(--display);
-  font-size: var(--step-1);
-  line-height: 1.35;
+  font-size: var(--step-0);
+  line-height: 1.55;
+  color: var(--ink);
 }
-.casserole__card--tall blockquote {
-  font-size: var(--step-2);
-}
-.casserole__card figcaption {
-  margin-top: var(--s3);
+.review-card figcaption {
+  margin-top: var(--s4);
+  padding-top: var(--s3);
+  border-top: 1px solid rgba(58, 51, 87, 0.12);
   font-size: var(--step--1);
   font-weight: 700;
   color: var(--ink-60);
 }
-.casserole__card--sun {
-  background: var(--sun-soft);
-}
-.casserole__card--sky {
-  background: var(--sky-soft);
-}
-.casserole__card--mint {
-  background: var(--mint-soft);
-}
-.casserole__card--petal {
-  background: var(--petal-soft);
-}
-.casserole__card--grape {
-  background: var(--grape-soft);
-}
-.casserole__card--ink {
-  background: var(--ink);
-  color: #fff;
-}
-.casserole__card--ink figcaption {
-  color: #c8c2e0;
-}
 
-@media (max-width: 900px) {
-  .casserole {
-    grid-template-columns: repeat(2, 1fr);
-  }
-  .casserole__card,
-  .casserole__card--wide,
-  .casserole__card--narrow {
-    grid-column: span 2;
-  }
-  .casserole__card--tall {
-    grid-row: span 1;
-  }
+.review-form__wrap {
+  max-width: 32rem;
+  margin: var(--s6) auto 0;
 }
-@media (max-width: 560px) {
-  .casserole {
-    grid-template-columns: 1fr;
-  }
-  .casserole__card,
-  .casserole__card--wide,
-  .casserole__card--narrow {
-    grid-column: span 1;
-  }
+.review-form__stars {
+  display: flex;
+  gap: var(--s1);
+}
+.review-form__star-btn {
+  padding: 4px;
+  border-radius: var(--r-sm);
+  background: none;
+  color: var(--sun);
+}
+.review-form__star-btn svg {
+  width: 26px;
+  height: 26px;
+  display: block;
+}
+.review-form__star-btn:focus-visible {
+  outline: 2px solid var(--grape);
+  outline-offset: 2px;
 }
 
 /* ---------- Video cards ---------- */
@@ -1698,4 +1757,127 @@ ol {
 }
 .video-card__icon {
   padding-left: 4px; /* a triangle looks centred when nudged right of its box */
+}
+
+/* ---------- Admin panel ---------- */
+/* Deliberately plain and app-like rather than themed like the public site —
+   this is a tool for one or two people, not a marketing page. */
+.admin-auth {
+  min-height: 100vh;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  padding: var(--s5);
+  background: var(--cream);
+}
+.admin-auth__card {
+  width: 100%;
+  max-width: 26rem;
+}
+
+.admin {
+  min-height: 100vh;
+  background: var(--cream);
+}
+.admin__bar {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: var(--s3);
+  padding: var(--s4) var(--s5);
+  background: var(--ink);
+  color: #fff;
+}
+.admin__bar-right {
+  display: flex;
+  align-items: center;
+  gap: var(--s4);
+  font-size: var(--step--1);
+}
+.admin__bar-right .btn--outline {
+  background: transparent;
+  color: #fff;
+  box-shadow: inset 0 0 0 2px rgba(255, 255, 255, 0.6);
+}
+.admin__tabs {
+  display: flex;
+  gap: var(--s2);
+  padding: var(--s4) var(--s5) 0;
+}
+.admin__tab {
+  padding: 0.7em 1.4em;
+  border-radius: var(--r-sm) var(--r-sm) 0 0;
+  background: var(--paper);
+  color: var(--ink-60);
+  font-family: var(--display);
+  font-weight: 700;
+}
+.admin__tab.is-active {
+  background: #fff;
+  color: var(--ink);
+  box-shadow: var(--shadow-sm);
+}
+.admin__content {
+  padding: var(--s5);
+  background: #fff;
+  max-width: 60rem;
+  margin: 0 auto;
+  border-radius: var(--r-lg);
+}
+.admin__toolbar {
+  margin-bottom: var(--s4);
+}
+.admin__section-title {
+  font-size: var(--step-1);
+  margin: var(--s5) 0 var(--s3);
+}
+.admin__section-title:first-child {
+  margin-top: 0;
+}
+
+.admin-list {
+  display: grid;
+  gap: var(--s3);
+}
+.admin-list__row {
+  display: flex;
+  align-items: flex-start;
+  justify-content: space-between;
+  gap: var(--s4);
+  padding: var(--s4);
+  border-radius: var(--r-md);
+  background: var(--paper);
+}
+.admin-list__meta {
+  margin: var(--s1) 0 0;
+  font-size: var(--step--1);
+  color: var(--ink-60);
+}
+.admin-status {
+  margin-left: var(--s3);
+  padding: 0.2em 0.7em;
+  border-radius: 999px;
+  font-size: var(--step--2);
+  font-weight: 700;
+  text-transform: uppercase;
+  letter-spacing: 0.03em;
+}
+.admin-status--live {
+  background: var(--mint-soft);
+  color: #146c48;
+}
+.admin-status--draft {
+  background: var(--sun-soft);
+  color: #8a6100;
+}
+
+.admin-checkbox {
+  display: flex;
+  align-items: center;
+  gap: var(--s2);
+  font-weight: 700;
+  font-size: var(--step--1);
+}
+.admin-form {
+  max-width: 40rem;
 }

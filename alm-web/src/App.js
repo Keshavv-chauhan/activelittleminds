@@ -1,4 +1,4 @@
-import React, { useEffect } from 'react';
+import React, { useEffect, lazy, Suspense } from 'react';
 import { Routes, Route, useLocation } from 'react-router-dom';
 import Layout from './components/Layout';
 import Home from './pages/Home';
@@ -9,6 +9,11 @@ import Blog from './pages/Blog';
 import BlogPost from './pages/BlogPost';
 import Contact from './pages/Contact';
 import NotFound from './pages/NotFound';
+
+// The admin panel pulls in the Firebase SDK, which the public site never
+// needs — its own chunk, fetched only by someone who actually navigates here.
+const AdminLogin = lazy(() => import('./admin/AdminLogin'));
+const AdminDashboard = lazy(() => import('./admin/AdminDashboard'));
 
 /**
  * Scrolls to the top on navigation, or to the #anchor if the link has one
@@ -29,7 +34,8 @@ function ScrollToTop() {
   return null;
 }
 
-export default function App() {
+/** The public, marketing side of the site — full nav, footer and SEO meta. */
+function PublicSite() {
   return (
     <Layout>
       <ScrollToTop />
@@ -45,5 +51,33 @@ export default function App() {
         <Route path="*" element={<NotFound />} />
       </Routes>
     </Layout>
+  );
+}
+
+export default function App() {
+  return (
+    <Routes>
+      {/* The admin panel is a separate app, not a page of the public site: no
+          nav/footer chrome, and it never runs useRouteMeta (see Layout). It is
+          not in seo.js's route list, so the build never prerenders it and it
+          stays out of the sitemap. */}
+      <Route
+        path="/admin-login"
+        element={
+          <Suspense fallback={null}>
+            <AdminLogin />
+          </Suspense>
+        }
+      />
+      <Route
+        path="/admin/*"
+        element={
+          <Suspense fallback={null}>
+            <AdminDashboard />
+          </Suspense>
+        }
+      />
+      <Route path="/*" element={<PublicSite />} />
+    </Routes>
   );
 }

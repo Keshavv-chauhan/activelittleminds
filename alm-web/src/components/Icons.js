@@ -128,3 +128,17 @@ export const reasonIcon = {
   'Progress you can see': Chart,
   'A place children want to return to': Heart,
 };
+
+// --- Reviews ---
+export const Quote = (p) => (
+  <svg {...base} {...p}>
+    <path d="M10 26c0-8 4-13 11-15l2 5c-5 2-7 5-7 9h7v11H10z" />
+    <path d="M26 26c0-8 4-13 11-15l2 5c-5 2-7 5-7 9h7v11H26z" />
+  </svg>
+);
+
+export const Star = (p) => (
+  <svg viewBox="0 0 24 24" aria-hidden focusable={false} {...p}>
+    <path d="M12 2.5l2.9 6.3 6.9.7-5.2 4.7 1.5 6.8L12 17.6l-6.1 3.4 1.5-6.8-5.2-4.7 6.9-.7z" />
+  </svg>
+);

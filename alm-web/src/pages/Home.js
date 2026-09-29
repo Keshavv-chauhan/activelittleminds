@@ -14,20 +14,12 @@ import { paths } from '../site';
 import { photos, sizes } from '../images';
 import { StartCard, ServiceTiles, FaqList } from '../components/Bits';
 import Photo from '../components/Photo';
-import { reasonIcon } from '../components/Icons';
+import { reasonIcon, Quote, Star } from '../components/Icons';
 import { AnimalParade, Bunny, Chick, FounderPortrait } from '../components/Animals';
 import { Gallery, VideoCarousel } from '../components/Media';
+import ReviewForm from '../components/ReviewForm';
 
 const DOT_TONES = ['sun', 'mint', 'petal', 'sky', 'grape'];
-
-const CASSEROLE_STYLE = [
-  { size: 'wide', tone: 'sun' },
-  { size: 'narrow', tone: 'sky' },
-  { size: 'tall', tone: 'ink' },
-  { size: '', tone: 'mint' },
-  { size: 'wide', tone: 'petal' },
-  { size: 'narrow', tone: 'grape' },
-];
 
 const GALLERY = [
   { ...photos.circleTime, wide: true },
@@ -106,6 +98,31 @@ export default function Home() {
         </div>
       </section>
 
+      <section className="section section--curve section--petal">
+        <div className="container founder">
+          <div className="archphoto archphoto--tall founder__portrait">
+            <FounderPortrait />
+          </div>
+          <div>
+            <h2 className="founder__name">{founder.name}</h2>
+            <p className="founder__role">{founder.role}</p>
+            <ul className="founder__credentials">
+              {founder.credentials.map((c) => (
+                <li key={c}>{c}</li>
+              ))}
+            </ul>
+            {founder.bio.map((para) => (
+              <p key={para.slice(0, 30)}>{para}</p>
+            ))}
+            <blockquote className="founder__quote">“{founder.quote}”</blockquote>
+            <p>
+              <Link to={paths.about}>Meet the whole team</Link> or{' '}
+              <Link to={paths.contact}>book a visit</Link>.
+            </p>
+          </div>
+        </div>
+      </section>
+
       <section className="section section--curve section--sky">
         <div className="container">
           <div className="head">
@@ -170,20 +187,26 @@ export default function Home() {
               own words.
             </p>
           </div>
-          <div className="casserole">
-            {[...testimonials, ...stories, ...sampleTestimonials].map((t, i) => {
-              const style = CASSEROLE_STYLE[i % CASSEROLE_STYLE.length];
-              const sizeClass = style.size ? ` casserole__card--${style.size}` : '';
-              return (
-                <figure
-                  className={`casserole__card casserole__card--${style.tone}${sizeClass}`}
-                  key={t.quote.slice(0, 24)}
-                >
-                  <blockquote>“{t.quote}”</blockquote>
-                  <figcaption>{t.source}</figcaption>
-                </figure>
-              );
-            })}
+          <div className="reviews">
+            {[...testimonials, ...stories, ...sampleTestimonials].map((t) => (
+              <figure className="review-card" key={t.quote.slice(0, 24)}>
+                <Quote className="review-card__mark" />
+                {t.rating && (
+                  <div className="review-card__stars" aria-label={`${t.rating} out of 5 stars`}>
+                    {Array.from({ length: 5 }, (_, i) => (
+                      <Star
+                        key={i}
+                        fill={i < t.rating ? 'currentColor' : 'none'}
+                        stroke="currentColor"
+                        strokeWidth="1.5"
+                      />
+                    ))}
+                  </div>
+                )}
+                <blockquote>{t.quote}</blockquote>
+                <figcaption>{t.source}</figcaption>
+              </figure>
+            ))}
           </div>
           <div className="notice" style={{ marginTop: 'var(--s5)' }}>
             <p>
@@ -192,6 +215,9 @@ export default function Home() {
               replace before launch." Swap them for real parent testimonials
               (with permission) or remove them before this goes live.
             </p>
+          </div>
+          <div className="review-form__wrap">
+            <ReviewForm />
           </div>
         </div>
       </section>
@@ -209,32 +235,7 @@ export default function Home() {
         </div>
       </section>
 
-      <section className="section section--curve section--sky">
-        <div className="container founder">
-          <div className="archphoto archphoto--tall founder__portrait">
-            <FounderPortrait />
-          </div>
-          <div>
-            <h2 className="founder__name">{founder.name}</h2>
-            <p className="founder__role">{founder.role}</p>
-            <ul className="founder__credentials">
-              {founder.credentials.map((c) => (
-                <li key={c}>{c}</li>
-              ))}
-            </ul>
-            {founder.bio.map((para) => (
-              <p key={para.slice(0, 30)}>{para}</p>
-            ))}
-            <blockquote className="founder__quote">“{founder.quote}”</blockquote>
-            <p>
-              <Link to={paths.about}>Meet the whole team</Link> or{' '}
-              <Link to={paths.contact}>book a visit</Link>.
-            </p>
-          </div>
-        </div>
-      </section>
-
-      <section className="section section--curve section--paper">
+      <section className="section section--curve section--cream">
         <div className="container split">
           <div>
             <div className="head">

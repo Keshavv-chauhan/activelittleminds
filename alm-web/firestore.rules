@@ -1,0 +1,47 @@
+rules_version = '2';
+
+// Real access control for the admin panel and the public review form (the
+// hidden /admin-login URL is only a UX convenience, not security — this file
+// is what actually decides who can read and write what).
+service cloud.firestore {
+  match /databases/{database}/documents {
+
+    // Membership is "a doc exists at admins/<their uid>". Created by hand in
+    // the Firebase console (or via the Admin SDK) — never from the client.
+    function isAdmin() {
+      return request.auth != null &&
+        exists(/databases/$(database)/documents/admins/$(request.auth.uid));
+    }
+
+    match /admins/{uid} {
+      allow read: if request.auth != null && request.auth.uid == uid;
+      allow write: if false;
+    }
+
+    match /posts/{postId} {
+      allow read: if resource.data.published == true || isAdmin();
+      allow write: if isAdmin();
+    }
+
+    match /reviews/{reviewId} {
+      // Public review submission: anyone can create one, but only as an
+      // unapproved, well-formed review — never pre-approved, never with
+      // extra fields, never a wall of text.
+      allow create: if request.resource.data.approved == false
+        && request.resource.data.quote is string
+        && request.resource.data.quote.size() > 0
+        && request.resource.data.quote.size() <= 600
+        && request.resource.data.source is string
+        && request.resource.data.source.size() > 0
+        && request.resource.data.source.size() <= 100
+        && (request.resource.data.rating == null
+            || (request.resource.data.rating is int
+                && request.resource.data.rating >= 1
+                && request.resource.data.rating <= 5))
+        && request.resource.data.keys().hasOnly(['quote', 'source', 'rating', 'approved', 'createdAt']);
+
+      allow read: if resource.data.approved == true || isAdmin();
+      allow update, delete: if isAdmin();
+    }
+  }
+}

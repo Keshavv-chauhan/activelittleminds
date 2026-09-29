@@ -64,9 +64,15 @@ src/
   fonts/             self-hosted Nunito + Baloo 2 (Latin subset, OFL licences)
   images/            OPTIMISED images only, generated (see "Images")
   components/        Layout, Bits (tiles, FAQ, breadcrumbs), Media (gallery,
-                     video row), Photo (responsive <img>), Animals, Icons
+                     video row), Photo (responsive <img>), Animals, Icons,
+                     ReviewForm (public "leave a review")
   pages/             Home, About, Services, ServiceDetail, Blog, BlogPost,
                      Contact, NotFound
+  admin/             /admin-login and /admin — see "Admin panel" below
+  firebase.js        Firebase SDK init (auth + Firestore), from .env.local
+  firebaseConfig.js   just the "is Firebase configured" check, no SDK —
+                     ReviewForm imports this so the public bundle stays free
+                     of the Firebase SDK; only admin.js pulls it in
 scripts/
   prerender.cjs      build step: render pages, 404, redirects, sitemap, robots
   check-site.cjs     build step: audit the finished site
@@ -143,6 +149,42 @@ Google Analytics 4, measurement ID `G-39K18ZX0KT`, is set up in
 - Page views on in-app navigation are counted by GA4's built-in "page changes
   based on browser history events" (Enhanced measurement, on by default). Do not
   also add manual `page_view` calls or they will be double counted.
+
+## Admin panel
+
+The client manages blog posts and reviews themselves at `/admin-login` — no
+developer needed, and the link is deliberately not in the nav, footer, or
+sitemap. Sign-in is Firebase Auth (email/password); once signed in, `/admin`
+has two tabs: **Blog posts** (create/edit/delete, draft or published) and
+**Reviews** (approve, unpublish or delete — anyone visiting the site can
+submit one via the form under "What parents say" on the homepage, but it only
+appears once an admin approves it).
+
+**The hidden URL is not the security boundary.** Anyone who finds
+`/admin-login` gets a login form either way; what actually stops them is
+Firebase Auth plus `firestore.rules`, which only lets a signed-in admin
+(a doc at `admins/<their uid>`) read drafts or write anything at all. Add an
+admin the first time from the Firebase console (Authentication -> Add user,
+then Firestore -> create a doc at `admins/<that user's uid>`).
+
+**Setup (one-time, in the Firebase console):** create a project, enable
+Authentication (Email/Password) and Firestore, then Project settings -> your
+apps -> add a Web app to get the config object. Copy `.env.local.example` to
+`.env.local` and fill it in; restart `npm start`. Deploy the security rules
+with `firebase deploy --only firestore:rules` (needs `firebase-tools` and
+`firebase use --add` to point `.firebaserc` at the real project ID).
+
+**Firebase SDK stays out of the public bundle.** `firebaseConfig.js` is a
+zero-dependency "is a project configured" check; `firebase.js` (the real SDK)
+is only pulled in by code that runs inside `/admin` or by `ReviewForm`'s
+submit handler via a dynamic `import()` — a visitor who never opens the admin
+panel or submits a review never downloads it.
+
+**Not wired up yet:** blog posts written in the admin panel live in Firestore,
+but the public `/blog/` pages still read from the static list in
+`content.js` — connecting the two (so a published post gets its own
+prerendered, SEO-correct page) is the next step, once the Firebase project
+above actually exists to build and test against.
 
 ## Search Console
 

@@ -22,13 +22,15 @@ export default function Blog() {
         <div className="container">
           <div className="tiles">
             {posts.map((p) => (
-              <Link className="tile" to={paths.post(p.slug)} key={p.slug}>
+              <Link className="post-card" to={paths.post(p.slug)} key={p.slug}>
+                <span className="post-card__category">{p.category}</span>
                 {/* Cards sit directly under the h1, so their headings are h2s. */}
-                <h2 className="tile__title">{p.title}</h2>
+                <h2 className="post-card__title">{p.title}</h2>
                 <p>{p.excerpt}</p>
-                <span className="tile__more">
-                  {p.dateLabel} — {p.category}
-                </span>
+                <div className="post-card__foot">
+                  <time dateTime={p.date}>{p.dateLabel}</time>
+                  <span className="post-card__read">Read article →</span>
+                </div>
               </Link>
             ))}
           </div>

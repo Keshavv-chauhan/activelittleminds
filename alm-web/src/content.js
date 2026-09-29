@@ -353,8 +353,8 @@ export const testimonials = [
   },
 ];
 
-// SAMPLE / PLACEHOLDER testimonials — added purely to fill out the
-// casserole layout with more variety than the three real quotes above.
+// SAMPLE / PLACEHOLDER testimonials — added purely to fill out the reviews
+// grid with more variety than the three real quotes above.
 // TODO(client): replace these with real parent quotes (with permission) or
 // remove them before launch. Names below are placeholders, not real families.
 export const sampleTestimonials = [

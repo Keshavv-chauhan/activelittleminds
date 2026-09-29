@@ -241,7 +241,8 @@ write(
 );
 write(
   path.join(build, 'robots.txt'),
-  `User-agent: *\nAllow: /\n\nSitemap: ${site.origin}/sitemap.xml\n`
+  `User-agent: *\nAllow: /\nDisallow: /admin-login\nDisallow: /admin\n\n` +
+    `Sitemap: ${site.origin}/sitemap.xml\n`
 );
 
 /* -- 6. Report, and refuse to ship a page that breaks the rules ----------- */
