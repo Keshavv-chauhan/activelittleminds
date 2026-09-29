@@ -76,6 +76,24 @@ for (const entry of photos) {
   }
 }
 
+/* ---- Founder portrait: pre-cropped to the 4:5 the arch frame shows, same
+        reasoning as the hero crop above ----------------------------------- */
+{
+  const input = join(SRC, 'founder.jpeg');
+  const meta = await sharp(input).metadata();
+  const cropH = Math.min(meta.height, Math.round((meta.width * 5) / 4));
+  for (const width of [640, 1280]) {
+    await write(
+      sharp(input)
+        .extract({ left: 0, top: 0, width: meta.width, height: cropH })
+        .resize({ width })
+        .webp({ quality: 80, effort: 6 }),
+      join(OUT, `founder-${width}.webp`),
+      `founder-${width}.webp`
+    );
+  }
+}
+
 /* ---- Video posters: portrait 9:16, self-hosted so no third-party image
         requests are needed until someone presses play -------------------- */
 for (const id of ['Qz4QT4EO3Dk', 'sWv1fjtIrtw', 'q8HAZaMOwJY', '2uji59RdVH0', 'Tg0pb3VRbiU']) {

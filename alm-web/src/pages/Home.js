@@ -15,7 +15,7 @@ import { photos, sizes } from '../images';
 import { StartCard, ServiceTiles, FaqList } from '../components/Bits';
 import Photo from '../components/Photo';
 import { reasonIcon, Quote, Star } from '../components/Icons';
-import { AnimalParade, Bunny, Chick, FounderPortrait } from '../components/Animals';
+import { AnimalParade, Bunny, Chick } from '../components/Animals';
 import { Gallery, VideoCarousel } from '../components/Media';
 import ReviewForm from '../components/ReviewForm';
 
@@ -101,7 +101,7 @@ export default function Home() {
       <section className="section section--curve section--petal">
         <div className="container founder">
           <div className="archphoto archphoto--tall founder__portrait">
-            <FounderPortrait />
+            <Photo photo={photos.founder} sizes={sizes.header} />
           </div>
           <div>
             <h2 className="founder__name">{founder.name}</h2>

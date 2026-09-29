@@ -905,7 +905,9 @@ ol {
 /* ---------- Team ---------- */
 .team {
   display: grid;
-  grid-template-columns: repeat(auto-fit, minmax(175px, 1fr));
+  /* Capped (not 1fr) so a short roster's cards stay a sensible portrait
+     size instead of stretching to fill the row. */
+  grid-template-columns: repeat(auto-fit, minmax(175px, 220px));
   gap: var(--s4);
 }
 .member__portrait {
@@ -914,6 +916,11 @@ ol {
   display: grid;
   place-items: center;
   box-shadow: var(--shadow-sm);
+}
+img.member__portrait {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
 }
 .member__portrait {
   font-family: var(--display);

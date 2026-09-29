@@ -308,12 +308,10 @@ export const whyUs = [
   },
 ];
 
+// TODO(client): the other therapists were removed from this list for now —
+// add them back (with real names, roles and, ideally, photos) when ready.
 export const team = [
-  { name: 'Dr. Srishti Tripathi', role: 'Founder & Director, Pediatric Physiotherapist', tone: 'sun' },
-  { name: 'Sonam', role: 'Speech & Language Therapist', tone: 'sky' },
-  { name: 'Harshita', role: 'Occupational Therapist', tone: 'petal' },
-  { name: 'Rupal', role: 'Special Educator', tone: 'mint' },
-  { name: 'Shalu', role: 'Physiotherapist', tone: 'grape' },
+  { name: 'Dr. Srishti Tripathi', role: 'Founder & Director, Pediatric Physiotherapist', tone: 'sun', photo: 'founder' },
 ];
 
 export const stories = [

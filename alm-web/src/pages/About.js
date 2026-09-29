@@ -98,13 +98,21 @@ export default function About() {
           <div className="team">
             {team.map((m) => (
               <div className="member" key={m.name}>
-                {/* TODO(client): replace initials with real team photography. */}
-                <div
-                  className={`member__portrait member__portrait--${m.tone}`}
-                  aria-hidden="true"
-                >
-                  {m.name.replace('Dr. ', '').charAt(0)}
-                </div>
+                {m.photo ? (
+                  <Photo
+                    className={`member__portrait member__portrait--${m.tone}`}
+                    photo={photos[m.photo]}
+                    sizes="220px"
+                  />
+                ) : (
+                  // TODO(client): replace initials with real team photography.
+                  <div
+                    className={`member__portrait member__portrait--${m.tone}`}
+                    aria-hidden="true"
+                  >
+                    {m.name.replace('Dr. ', '').charAt(0)}
+                  </div>
+                )}
                 <h3>{m.name}</h3>
                 <p>{m.role}</p>
               </div>

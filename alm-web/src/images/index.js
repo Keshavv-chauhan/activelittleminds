@@ -24,6 +24,8 @@ import jumping640 from './jumping-640.webp';
 import jumping1280 from './jumping-1280.webp';
 import numbersLesson640 from './numbers-lesson-640.webp';
 import numbersLesson1280 from './numbers-lesson-1280.webp';
+import founder640 from './founder-640.webp';
+import founder1280 from './founder-1280.webp';
 
 import videoQz4QT4EO3Dk from './video-Qz4QT4EO3Dk.webp';
 import videoSWv1fjtIrtw from './video-sWv1fjtIrtw.webp';
@@ -104,6 +106,12 @@ export const photos = {
     numbersLesson640,
     numbersLesson1280,
     'A teacher holding up a number card while a young girl in a yellow dress counts on her fingers, with number and alphabet posters on the wall behind them.'
+  ),
+  founder: photo(
+    'founder',
+    founder640,
+    founder1280,
+    'Dr. Srishti Tripathi, Founder and Director of Active Little Minds, smiling in her office.'
   ),
 };
 
