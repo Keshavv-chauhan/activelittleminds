@@ -200,7 +200,7 @@ export default function Home() {
 
       <section className="section section--curve section--mint">
         <div className="container">
-          <div className="head">
+          <div className="head" style={{ marginBottom: 'var(--s3)' }}>
             <h2>What parents say</h2>
             <p>
               Real words from the families we work with every day.

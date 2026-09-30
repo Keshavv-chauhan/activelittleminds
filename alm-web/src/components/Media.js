@@ -157,99 +157,69 @@ export function VideoCarousel({ videos, label = 'Videos' }) {
 }
 
 /**
- * Horizontally scrolling row of review cards — same mechanics as
- * VideoCarousel, plus a slow auto-advance (paused by any interaction —
- * pointer down, wheel, keyboard focus — for a few seconds, and skipped
- * entirely for prefers-reduced-motion).
+ * Continuously scrolling row of review cards — a true marquee (CSS
+ * `animation` on a doubled track), not a stop-start "jump to next card
+ * every few seconds." Pauses on any interaction (pointer down, wheel) for a
+ * few seconds so someone can actually read, and never animates at all under
+ * prefers-reduced-motion. Doubling the list and hiding the second copy from
+ * assistive tech is the standard way to get a seamless loop out of a CSS
+ * animation without measuring pixel widths in JS.
  */
 export function ReviewCarousel({ reviews, label = 'Reviews' }) {
-  const viewport = useRef(null);
   const resumeTimer = useRef(null);
-  const [autoplay, setAutoplay] = useState(true);
+  const [paused, setPaused] = useState(false);
+  const [reducedMotion, setReducedMotion] = useState(false);
 
-  const scrollByCards = useCallback((direction) => {
-    const el = viewport.current;
-    if (!el) return;
-    const card = el.querySelector('.carousel__slide');
-    const step = card ? card.offsetWidth + 28 : el.clientWidth * 0.8;
-    const atEnd = el.scrollLeft + el.clientWidth >= el.scrollWidth - 4;
-    if (direction > 0 && atEnd) {
-      el.scrollTo({ left: 0, behavior: 'smooth' });
-    } else {
-      el.scrollBy({ left: step * direction, behavior: 'smooth' });
-    }
+  useEffect(() => {
+    setReducedMotion(window.matchMedia('(prefers-reduced-motion: reduce)').matches);
   }, []);
 
   const pauseThenResume = useCallback(() => {
-    setAutoplay(false);
+    setPaused(true);
     clearTimeout(resumeTimer.current);
-    resumeTimer.current = setTimeout(() => setAutoplay(true), 6000);
+    resumeTimer.current = setTimeout(() => setPaused(false), 6000);
   }, []);
 
   useEffect(() => () => clearTimeout(resumeTimer.current), []);
 
-  useEffect(() => {
-    if (!autoplay || reviews.length <= 1) return undefined;
-    if (window.matchMedia('(prefers-reduced-motion: reduce)').matches) return undefined;
-    const id = setInterval(() => scrollByCards(1), 4000);
-    return () => clearInterval(id);
-  }, [autoplay, reviews.length, scrollByCards]);
+  const canLoop = reviews.length > 1 && !reducedMotion;
+  const track = canLoop ? [...reviews, ...reviews] : reviews;
+  // A fixed speed regardless of count (rather than a fixed duration) so
+  // adding more reviews doesn't make existing ones fly past faster.
+  const duration = Math.max(reviews.length * 6, 18);
 
   return (
-    <div className="carousel carousel--reviews">
-      <div
-        className="carousel__viewport"
-        ref={viewport}
-        tabIndex={0}
-        role="group"
-        aria-label={label}
-        onPointerDown={pauseThenResume}
-        onWheel={pauseThenResume}
-        onFocus={pauseThenResume}
-      >
-        {reviews.map((r) => (
-          <figure className="carousel__slide review-card" key={r.id}>
-            <Quote className="review-card__mark" />
-            {r.rating && (
-              <div className="review-card__stars" aria-label={`${r.rating} out of 5 stars`}>
-                {Array.from({ length: 5 }, (_, i) => (
-                  <Star
-                    key={i}
-                    fill={i < r.rating ? 'currentColor' : 'none'}
-                    stroke="currentColor"
-                    strokeWidth="1.5"
-                  />
-                ))}
-              </div>
-            )}
-            <blockquote>{r.quote}</blockquote>
-            <figcaption>{r.source}</figcaption>
-          </figure>
-        ))}
-      </div>
-      <div className="carousel__controls">
-        <button
-          type="button"
-          className="carousel__btn"
-          onClick={() => {
-            pauseThenResume();
-            scrollByCards(-1);
-          }}
-          aria-label={`Scroll ${label} back`}
-        >
-          &#8592;
-        </button>
-        <button
-          type="button"
-          className="carousel__btn"
-          onClick={() => {
-            pauseThenResume();
-            scrollByCards(1);
-          }}
-          aria-label={`Scroll ${label} forward`}
-        >
-          &#8594;
-        </button>
+    <div
+      className={`carousel carousel--reviews${paused || !canLoop ? ' is-paused' : ''}`}
+      onPointerDown={pauseThenResume}
+      onWheel={pauseThenResume}
+    >
+      <div className="carousel__viewport" role="group" aria-label={label}>
+        <div className="carousel__track" style={{ '--marquee-duration': `${duration}s` }}>
+          {track.map((r, i) => (
+            <figure
+              className="carousel__slide review-card"
+              key={`${r.id}-${i}`}
+              aria-hidden={i >= reviews.length ? true : undefined}
+            >
+              <Quote className="review-card__mark" />
+              {r.rating && (
+                <div className="review-card__stars" aria-label={`${r.rating} out of 5 stars`}>
+                  {Array.from({ length: 5 }, (_, j) => (
+                    <Star
+                      key={j}
+                      fill={j < r.rating ? 'currentColor' : 'none'}
+                      stroke="currentColor"
+                      strokeWidth="1.5"
+                    />
+                  ))}
+                </div>
+              )}
+              <blockquote>{r.quote}</blockquote>
+              <figcaption>{r.source}</figcaption>
+            </figure>
+          ))}
+        </div>
       </div>
     </div>
   );

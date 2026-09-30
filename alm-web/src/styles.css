@@ -624,15 +624,42 @@ ol {
 .carousel__viewport::-webkit-scrollbar {
   display: none;
 }
-/* Reviews vary a lot in length; stretching every card to match the tallest
-   one in view (flex's default) leaves short quotes with a lot of dead space
-   before the footer. Size each card to its own content instead. */
+/* Reviews: a true continuous marquee, not a scroll container — the track is
+   the reviews list doubled back-to-back, animated with a plain CSS
+   transform loop, so there is no stop-start rhythm and no scrollbar/snap
+   machinery needed. Tighter padding too: a scrollable row needed room for
+   the snap/shadow, a marquee doesn't. */
 .carousel--reviews .carousel__viewport {
+  overflow: hidden;
+  padding: var(--s1) 0 var(--s3);
+}
+.carousel--reviews .carousel__track {
+  display: flex;
   align-items: flex-start;
+  gap: var(--s4);
+  width: max-content;
+  animation: marquee-scroll var(--marquee-duration, 30s) linear infinite;
+}
+.carousel--reviews.is-paused .carousel__track {
+  animation-play-state: paused;
+}
+@keyframes marquee-scroll {
+  from {
+    transform: translateX(0);
+  }
+  to {
+    transform: translateX(-50%);
+  }
 }
 .carousel__slide {
   flex: 0 0 clamp(260px, 32%, 380px);
   scroll-snap-align: start;
+}
+/* A percentage flex-basis can't resolve against a `width: max-content`
+   track (its size depends on its children, which is exactly what a
+   percentage would need to already know) — fixed width instead. */
+.carousel--reviews .carousel__slide {
+  flex: 0 0 min(340px, 85vw);
 }
 .carousel__controls {
   display: flex;
