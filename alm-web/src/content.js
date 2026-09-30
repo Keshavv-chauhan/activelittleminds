@@ -21,12 +21,7 @@ export const clinic = {
     facebook: 'https://www.facebook.com/profile.php?id=61580940359737',
     youtube: 'https://www.youtube.com/@ActiveLittleMinds',
   },
-  // TODO(client): confirm opening hours. The old site referred to "normal
-  // business hours" but never published them.
-  hours: [
-    { days: 'Monday to Saturday', time: '9:00am – 7:00pm' },
-    { days: 'Sunday', time: 'Closed' },
-  ],
+  hours: [{ days: 'Every day', time: 'Open 24 hours' }],
 };
 
 export const concerns = [
@@ -409,104 +404,8 @@ export const videos = [
   { id: 'Tg0pb3VRbiU', title: 'Interactive group classes' },
 ];
 
-export const posts = [
-  {
-    slug: 'autism-spectrum-disorder',
-    date: '2025-11-09',
-    seoTitle: "Autism Spectrum Disorder (ASD) | Active Little Minds",
-    related: ["speech-therapy","occupational-therapy","early-intervention","group-therapy"],
-    title: 'Autism Spectrum Disorder (ASD)',
-    dateLabel: '9 November 2025',
-    category: 'Autism Spectrum Disorder (ASD)',
-    // NOTE: the article body was missing on the live site — the URL served the
-    // homepage. Client to supply the original text.
-    excerpt:
-      'An introduction to Autism Spectrum Disorder — what it is, how it presents in early childhood, and where therapy helps.',
-    body: null,
-  },
-  {
-    slug: 'early-childhood-development-tips',
-    date: '2025-09-06',
-    seoTitle: "Top 8 Early Childhood Development Tips | Active Little Minds",
-    related: ["early-intervention","speech-therapy","occupational-therapy"],
-    title: 'Top 8 Tips for Early Childhood Development',
-    dateLabel: '6 September 2025',
-    category: 'Child Development',
-    excerpt:
-      'Practical things parents can do at home to support communication, motor skills, and confidence in the early years.',
-    body: null,
-  },
-  // SAMPLE articles — added purely to fill out the blog grid with more than
-  // two posts so its layout could be judged properly.
-  // TODO(client): generated copy, not clinically reviewed. Replace with
-  // approved articles (or edit these) before launch — see also item 3 in
-  // "Open items for the client" in the README about clinical review.
-  {
-    slug: 'speech-delay-when-to-seek-help',
-    date: '2025-12-10',
-    seoTitle: 'Speech Delay in Toddlers | Active Little Minds',
-    related: ['speech-therapy', 'early-intervention'],
-    title: 'Speech Delay in Toddlers: When to Seek Help',
-    dateLabel: '10 December 2025',
-    category: 'Speech & Language Therapy',
-    excerpt:
-      "Every child develops language at their own pace — but a few signs are worth a professional opinion rather than a wait-and-see approach.",
-    body: [
-      "Most toddlers say their first recognisable word somewhere between 12 and 18 months, and start combining words into short phrases by age two. But the range of “normal” is wide, and a quiet toddler is not automatically a cause for concern.",
-      "What is worth paying attention to is a pattern, not a single moment: a two-year-old who is not combining any words, a three-year-old that strangers cannot understand, or a child who seems to understand less than you would expect for their age. None of these confirm a delay on their own, but together they are a good reason to get a professional opinion rather than waiting it out.",
-      "An early speech and language assessment does not commit you to anything — it simply tells you where your child stands against typical milestones, and what, if anything, would help. The earlier a delay is identified, the more options there usually are, since young brains are especially responsive to targeted practice.",
-      "If any of this sounds familiar, a free first consultation is a low-pressure way to find out where your child is and what the next step, if any, should be.",
-    ],
-  },
-  {
-    slug: 'what-is-occupational-therapy',
-    date: '2025-10-22',
-    seoTitle: 'What Is Occupational Therapy? | Active Little Minds',
-    related: ['occupational-therapy', 'craniosacral-oral-placement'],
-    title: 'What Is Occupational Therapy, and Does My Child Need It?',
-    dateLabel: '22 October 2025',
-    category: 'Occupational Therapy',
-    excerpt:
-      "It isn't about jobs or work — it's about the everyday skills of childhood, from holding a pencil to coping with a noisy classroom.",
-    body: [
-      "“Occupational therapy” is a confusing name for parents meeting it for the first time — it has nothing to do with careers. For children, their “occupation” is simply the everyday business of being a kid: playing, dressing, eating, writing, and taking part in a classroom without becoming overwhelmed.",
-      "An occupational therapist looks at the physical, sensory and attention skills behind those everyday tasks. That might mean building the hand strength and coordination needed to hold a pencil properly, or it might mean helping a child who finds bright lights, loud sounds or certain textures genuinely distressing learn to cope with a typical school day.",
-      "Sensory integration therapy, often run alongside occupational therapy, focuses specifically on that second part — how a child's brain processes what their senses take in, and how to make that processing feel less overwhelming.",
-      "If your child struggles with things like handwriting, getting dressed, sitting still at a table, or seems unusually bothered by everyday sounds and textures, it is worth asking whether occupational therapy could help.",
-    ],
-  },
-  {
-    slug: 'adhd-early-signs-in-young-children',
-    date: '2025-08-14',
-    seoTitle: 'ADHD in Young Children: Early Signs | Active Little Minds',
-    related: ['early-intervention', 'special-education'],
-    title: 'ADHD in Young Children: Early Signs Parents Should Know',
-    dateLabel: '14 August 2025',
-    category: 'Child Development',
-    excerpt:
-      "Every young child is energetic and easily distracted sometimes. Here's the difference between that and a pattern worth having assessed.",
-    body: [
-      "Almost every parent of a preschooler has a story about their child not sitting still or losing focus mid-task — at that age, it is rarely unusual. ADHD is not diagnosed from a single busy afternoon; it is diagnosed from a consistent pattern that shows up across different settings — at home, at a relative's house, and at school or daycare — and that noticeably affects how a child manages everyday routines.",
-      "Some of the patterns worth mentioning to a professional: difficulty following two- or three-step instructions that peers the same age manage easily, frequent difficulty waiting their turn, or a level of impulsivity that leads to frequent minor accidents or conflict with other children.",
-      "An assessment is not a label to fear — it is information. For some children, a handful of practical strategies at home and school make the biggest difference; for others, structured therapy helps build the specific skills that are lagging. Either way, knowing what you are working with early tends to make the years that follow easier for the whole family.",
-      "If this sounds like your child, an initial consultation can help you understand whether what you are seeing is a typical stage or something worth a closer look.",
-    ],
-  },
-  {
-    slug: 'building-social-skills-group-therapy',
-    date: '2025-06-25',
-    seoTitle: 'Social Skills Through Group Therapy | Active Little Minds',
-    related: ['group-therapy', 'special-education'],
-    title: 'Building Social Skills Through Group Therapy',
-    dateLabel: '25 June 2025',
-    category: 'Group & Social Therapy',
-    excerpt:
-      "Some skills — turn-taking, reading another child's expression, joining a game already in progress — are best practised with other children, not a worksheet.",
-    body: [
-      "Individual therapy is very good at building a specific skill in a quiet, controlled setting. But some skills only really make sense in a group: waiting your turn, noticing when a friend is upset, negotiating who goes first, or working out how to join a game that has already started.",
-      "Group and social therapy sessions are built around exactly that — small, carefully mixed groups of children working on shared activities and games, with a therapist guiding the interaction rather than running a lesson. The “lesson” is the interaction itself.",
-      "For many children, especially those on the autism spectrum or with social anxiety, this is where progress made in individual sessions actually gets tested and made durable — the real proof that a skill has stuck is whether it shows up with other kids, not just with a therapist one-to-one.",
-      "Parents often notice the results outside the therapy room first: a birthday party that goes more smoothly, a sibling conflict resolved without a meltdown, a first real friendship at school.",
-    ],
-  },
-];
+// Blog posts now live entirely in Firestore (migrated from here so the
+// admin panel at /admin is the single place to manage them — see the
+// "posts" collection). Kept as an empty export since Blog.js/BlogPost.js
+// still import it as a fallback data source alongside the Firestore list.
+export const posts = [];

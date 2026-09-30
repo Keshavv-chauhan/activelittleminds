@@ -143,8 +143,14 @@ for (const f of ['favicon.ico', 'favicon-32.png', 'apple-touch-icon.png', 'og-im
   if (!exists(path.join(build, f))) bad('build', `missing ${f}`);
 }
 
-// Every redirect target must be a real page.
+// Every redirect target must be a real page — except /blog/:slug/, which is
+// no longer necessarily a prerendered file: blog posts can now live purely
+// in Firestore, and BlogPost.js falls back to looking up any unmatched slug
+// there at runtime. This script has no way to check Firestore itself, so it
+// trusts that fallback instead of requiring a static file for these.
+const BLOG_POST_PATH = /^\/blog\/[^/]+\/$/;
 for (const [from, to] of Object.entries(legacyRedirects)) {
+  if (BLOG_POST_PATH.test(to)) continue;
   if (!resolveInternal(to).ok) bad('redirects', `${from} points at ${to}, which does not exist`);
 }
 if (!exists(path.join(build, '404.html'))) bad('build', 'missing 404.html');

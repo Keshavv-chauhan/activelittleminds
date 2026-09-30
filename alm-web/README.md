@@ -45,8 +45,10 @@ Titles, descriptions, canonical URLs, breadcrumbs and all JSON-LD come from
 `components/useRouteMeta.js` uses the *same functions* to keep `<head>` correct
 while someone navigates inside the app. They cannot disagree.
 
-To change a page's title or description, edit it in `src/seo.js` (static pages) or
-`seoTitle` / `seoDescription` on the service or post in `src/content.js`.
+To change a page's title or description, edit it in `src/seo.js` (static pages),
+`seoTitle` / `seoDescription` on the service in `src/content.js`, or — for a blog
+post — in the admin panel's post editor (posts live in Firestore now, not here;
+see "Admin panel" below).
 
 ### What the build refuses to ship
 
@@ -259,29 +261,27 @@ Search the source for `TODO(client)`:
 
 1. **Two phone numbers** were in use on the old site (`93547 51149` and
    `8126268441`). The build uses the office line everywhere; confirm which is right.
-2. **Opening hours** are a placeholder. They are deliberately left out of the
-   structured data so Google is not told hours nobody has confirmed.
-3. **Group & Social Therapy** copy is drafted, not clinically approved.
-4. **Blog articles**: "Autism Spectrum Disorder (ASD)" and "Top 8 Tips for Early
-   Childhood Development" had their bodies missing from the old site, and are still
-   excerpt-only — supply the original text and add it as a `body` array in
-   `content.js` to publish them (it joins the sitemap and "Related reading" links
-   automatically). The other four articles on `/blog/` are drafted samples (AI-written,
-   not clinically reviewed) added to show what a full post and a populated blog grid
-   look like — replace them with approved writing, or edit them, before launch.
-5. **Photos**: team portraits are coloured initials, and the founder portrait is an
-   illustration. Six real photos would finish the site (founder bio and credentials
-   are now real, confirmed copy — only her photo is still a placeholder).
-6. **Logo resolution**: the logo file is only 132x134 px, so the 192 px and 512 px
+2. **Group & Social Therapy** copy is drafted, not clinically approved. (The
+   visible "needs review" note was removed from the live page — it's not
+   something a real visitor should see — but the copy itself still needs a
+   clinical read before it's fully trusted. Flagged in `content.js` as
+   `draft: true` on that service.)
+3. **Two blog posts have no body yet**: "Autism Spectrum Disorder (ASD)" and
+   "Top 8 Tips for Early Childhood Development" exist as drafts in the admin
+   panel (`/admin` → Blog posts) but were never given real article text on the
+   old site. Write the body directly in the admin panel's editor and hit
+   Publish — no developer needed for this anymore, since all blog posts now
+   live in Firestore rather than in the codebase.
+4. **Logo resolution**: the logo file is only 132x134 px, so the 192 px and 512 px
    app icons are upscaled and soft. A larger original would fix it; re-run the image
    script afterwards.
-7. **Testimonials** are unattributed, and four are labelled samples that must be
-   replaced or removed before launch.
-8. **Video row**: these are real clips from the clinic's YouTube channel (activity
-   Shorts), not parent testimonials. Swap the `videos` list when real ones exist.
-9. **Form delivery**: the enquiry form opens the visitor's mail app. Point it at a
-   real endpoint (Formspree, Netlify Forms, or your own) before launch.
-10. **Old-site keywords**: the previous homepage targeted phrases such as adult
-    speech therapy, stuttering, fluency and voice therapy, and speech therapy at
-    home. None of those services appear in the clinic's own service copy, so they
-    were not added. If they are offered, say so and they can be added properly.
+5. **Video row**: these are real clips from the clinic's YouTube channel (activity
+   Shorts), not parent testimonials. Swap the `videos` list in `content.js` when
+   real testimonial recordings exist.
+
+Resolved since the last audit, no longer open: opening hours (confirmed —
+open 24 hours, every day), testimonials (now genuinely dynamic — see "Admin
+panel" above — the old hardcoded "Sample quote" placeholders are gone), and
+enquiry delivery (the contact form now saves to Firestore and shows up in the
+admin panel; it only falls back to opening the visitor's mail app if Firebase
+is ever unreachable).

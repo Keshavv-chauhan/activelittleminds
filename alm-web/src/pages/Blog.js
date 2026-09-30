@@ -63,38 +63,44 @@ export default function Blog() {
 
       <section className="section section--curve section--paper">
         <div className="container">
-          <Link className="post-feature" to={paths.post(featured.slug)}>
-            <span className="post-feature__icon">
-              <Article />
-            </span>
-            <div>
-              <span className="post-card__category">{featured.category}</span>
-              {/* The page's only h1 is above, so this can safely be an h2. */}
-              <h2 className="post-feature__title">{featured.title}</h2>
-              <p>{featured.excerpt}</p>
-              <div className="post-card__foot">
-                <time dateTime={featured.date}>{featured.dateLabel}</time>
-                <span className="post-card__read">Read the full article →</span>
-              </div>
-            </div>
-          </Link>
+          {!featured && <p>Loading articles…</p>}
 
-          <div className="tiles" style={{ marginTop: 'var(--s5)' }}>
-            {rest.map((p) => (
-              <Link className="post-card" to={paths.post(p.slug)} key={p.slug}>
-                <span className="post-card__icon">
-                  <Article />
-                </span>
-                <span className="post-card__category">{p.category}</span>
-                <h2 className="post-card__title">{p.title}</h2>
-                <p>{p.excerpt}</p>
+          {featured && (
+            <Link className="post-feature" to={paths.post(featured.slug)}>
+              <span className="post-feature__icon">
+                <Article />
+              </span>
+              <div>
+                <span className="post-card__category">{featured.category}</span>
+                {/* The page's only h1 is above, so this can safely be an h2. */}
+                <h2 className="post-feature__title">{featured.title}</h2>
+                <p>{featured.excerpt}</p>
                 <div className="post-card__foot">
-                  <time dateTime={p.date}>{p.dateLabel}</time>
-                  <span className="post-card__read">Read article →</span>
+                  <time dateTime={featured.date}>{featured.dateLabel}</time>
+                  <span className="post-card__read">Read the full article →</span>
                 </div>
-              </Link>
-            ))}
-          </div>
+              </div>
+            </Link>
+          )}
+
+          {rest.length > 0 && (
+            <div className="tiles" style={{ marginTop: 'var(--s5)' }}>
+              {rest.map((p) => (
+                <Link className="post-card" to={paths.post(p.slug)} key={p.slug}>
+                  <span className="post-card__icon">
+                    <Article />
+                  </span>
+                  <span className="post-card__category">{p.category}</span>
+                  <h2 className="post-card__title">{p.title}</h2>
+                  <p>{p.excerpt}</p>
+                  <div className="post-card__foot">
+                    <time dateTime={p.date}>{p.dateLabel}</time>
+                    <span className="post-card__read">Read article →</span>
+                  </div>
+                </Link>
+              ))}
+            </div>
+          )}
 
           <p style={{ marginTop: 'var(--s5)' }}>
             Looking for something specific? See our{' '}

@@ -127,14 +127,6 @@ export default function Contact() {
               questions parents ask first, or{' '}
               <Link to={paths.about}>meet the team</Link>.
             </p>
-
-            <div className="notice" style={{ marginTop: 'var(--s5)' }}>
-              <p>
-                Note for the client: opening hours are a placeholder. The
-                previous site referred to “normal business hours” without ever
-                publishing them.
-              </p>
-            </div>
           </div>
 
           <form className="form" onSubmit={handleSubmit}>

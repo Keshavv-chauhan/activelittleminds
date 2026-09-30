@@ -79,15 +79,6 @@ export default function ServiceDetail() {
               <Link to={`${paths.services}#faq`}>questions parents ask first</Link>.
             </p>
 
-            {service.draft && (
-              <div className="notice">
-                <p>
-                  Note for the client: the previous site had no detail page for
-                  this therapy. This copy is drafted from the service summary
-                  and needs review by the clinical team before launch.
-                </p>
-              </div>
-            )}
           </article>
 
           <aside className="sticky-aside">
